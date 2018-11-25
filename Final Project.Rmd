@@ -4,20 +4,64 @@ output: html_notebook
 Name: Daniel Lee
 ---
 
-Setup
+### Setup
 ```{r}
+rm(list = ls())
 library(lubridate)
 library(tidyverse)
 library(mosaic)
+library(rvest)
 ```
 
-URL & xpath
+### URL & xpath
 ```{r}
-https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml
+download.file(url = "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Pitching")
 
-Player Standard Pitching table
-XPATH
-//*[@id="players_standard_pitching"]
+DataTable <- readRDS("Pitching")
+
+```
+```{r}
+web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-batting.shtml"
+SetOfTables <- web_page %>%
+  read_html() %>%
+  html_nodes(xpath = '//*[@id="players_standard_batting"]') %>%
+  html_table(fill = TRUE)
+
+```
+
+
+```{r}
+web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml"
+
+XPATH <- '//*[@id="players_standard_pitching"]'
+
+readRDS()
+Pitching<- 
+  page %>%
+  read_html() %>%
+  html_nodes(xpath = XPATH) %>%
+  html_table(fill = TRUE)
+
+View(Pitching)
+```
+
+
+
+
+```{r}
+MLB <- Player_Standard_Batting
+
+MLB %>%
+  filter(Age <= 27) %>%
+  arrange(desc(Age))
+
+
+MLB %>%
+  select(Name, Tm, H)
+  
+
+  
+
 
 ```
 
