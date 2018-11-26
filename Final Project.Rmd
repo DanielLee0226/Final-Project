@@ -13,55 +13,51 @@ library(mosaic)
 library(rvest)
 ```
 
-### URL & xpath
+### URL & xpath (Not working & Need to be fixed)
 ```{r}
-download.file(url = "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Pitching")
+download.file(url = "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting")
 
-DataTable <- readRDS("Pitching")
+XPATH <- '//*[@id="players_standard_batting"]'
 
-```
-```{r}
-web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-batting.shtml"
-SetOfTables <- web_page %>%
-  read_html() %>%
-  html_nodes(xpath = '//*[@id="players_standard_batting"]') %>%
-  html_table(fill = TRUE)
+DataTable <- readRDS("Batting")
+
+web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting"
 
 ```
 
-
+## Column 'POS' cannot be found..
 ```{r}
-web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml"
+# Creating a new table (MLB) with variables that are necessary and significant & erasing rows that contain NAs.
+MLB <- 
+  Player_Standard_Batting %>%
+  select(Name, Tm, Age, R, H, HR, RBI, BA) # POS should be included but could not be found..
 
-XPATH <- '//*[@id="players_standard_pitching"]'
+str(MLB)
 
-readRDS()
-Pitching<- 
-  page %>%
-  read_html() %>%
-  html_nodes(xpath = XPATH) %>%
-  html_table(fill = TRUE)
+# Average Hits and Batting aveage
+MLB %>%
+  summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded 
 
-View(Pitching)
+
 ```
 
-
-
-
+## Need to be improved
 ```{r}
-MLB <- Player_Standard_Batting
+# Counting the number of players who are 27 years old in each team & Removing pitchers and duplicated names from the data table occured due to trade during season.
 
 MLB %>%
-  filter(Age <= 27) %>%
-  arrange(desc(Age))
+  group_by(Tm) %>%
+  filter(Age >= 27) %>%
+  filter(POS != "1", na.rm == TRUE) %>%       # Pitchers have a number position = 1
+  summarise(count = n( ))
 
+```
 
+## Relationship between age and hit
+```{r}
 MLB %>%
-  select(Name, Tm, H)
-  
-
-  
-
-
+  ggplot(aes(x= Age, y= H)) + 
+  geom_density() +
+  xlab("Age (yrs)") + ylab("Single Hits")
 ```
 
