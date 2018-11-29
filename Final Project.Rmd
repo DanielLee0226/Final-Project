@@ -11,34 +11,39 @@ library(lubridate)
 library(tidyverse)
 library(mosaic)
 library(rvest)
+library(readxl)
+Player_Standard_Batting <- read_excel("~/Desktop/Player Standard Batting.xlsx")
+
 ```
 
 ### URL & xpath (Not working & Need to be fixed)
 ```{r}
-download.file(url = "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting")
-
-XPATH <- '//*[@id="players_standard_batting"]'
-
-DataTable <- readRDS("Batting")
-
-web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting"
+# download.file(url = "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting")
+# 
+# XPATH <- '//*[@id="players_standard_batting"]'
+# 
+# DataTable <- readRDS("Batting")
+# 
+# web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting"
 
 ```
 
-## Column 'POS' cannot be found..
 ```{r}
 # Creating a new table (MLB) with variables that are necessary and significant & erasing rows that contain NAs.
 MLB <- 
   Player_Standard_Batting %>%
-  select(Name, Tm, Age, R, H, HR, RBI, BA) # POS should be included but could not be found..
+  select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) # POS should be included but could not be found..
 
-str(MLB)
+str(Player_Standard_Batting)
 
 # Average Hits and Batting aveage
 MLB %>%
   summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded 
 
-
+# Most Hits and Batting aveage
+MLB %>%
+  filter(AB >= 300) %>%        # Filtering out players who were not at bat less than 300 games
+  summarise(BA = max(BA, na.rm = TRUE), H = max(H, na.rm = TRUE))
 ```
 
 ## Need to be improved
@@ -48,16 +53,17 @@ MLB %>%
 MLB %>%
   group_by(Tm) %>%
   filter(Age >= 27) %>%
-  filter(POS != "1", na.rm == TRUE) %>%       # Pitchers have a number position = 1
+  filter(POS != "1") %>% # Pitchers have a number position = 1 / POS does not work 
   summarise(count = n( ))
 
 ```
 
-## Relationship between age and hit
+## Relationship between age and single hits
 ```{r}
 MLB %>%
   ggplot(aes(x= Age, y= H)) + 
   geom_density() +
-  xlab("Age (yrs)") + ylab("Single Hits")
+  xlab("Age (yrs)") + ylab("Single Hits") +
+  
 ```
 
