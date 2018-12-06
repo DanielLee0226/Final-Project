@@ -180,14 +180,18 @@ $(document).ready(function () {
 <h3>Setup</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShtb3NhaWMpXG5saWJyYXJ5KHJ2ZXN0KVxubGlicmFyeShyZWFkeGwpXG5QbGF5ZXJfU3RhbmRhcmRfQmF0dGluZyA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3hcIilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShtb3NhaWMpXG5saWJyYXJ5KHJ2ZXN0KVxubGlicmFyeShyZWFkeGwpXG5QbGF5ZXJfU3RhbmRhcmRfQmF0dGluZyA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3hcIilcblZpZXcoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5saWJyYXJ5KHJlYWR4bClcblNhbGFyeSA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1NhbGFyeS54bHN4XCIpXG5WaWV3KFNhbGFyeSlcbmBgYCJ9 -->
 <pre class="r"><code>rm(list = ls())
 library(lubridate)
 library(tidyverse)
 library(mosaic)
 library(rvest)
 library(readxl)
-Player_Standard_Batting &lt;- read_excel(&quot;~/Desktop/Player Standard Batting.xlsx&quot;)</code></pre>
+Player_Standard_Batting &lt;- read_excel(&quot;~/Desktop/Player Standard Batting.xlsx&quot;)
+View(Player_Standard_Batting)
+library(readxl)
+Salary &lt;- read_excel(&quot;~/Desktop/Salary.xlsx&quot;)
+View(Salary)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -209,65 +213,64 @@ Player_Standard_Batting &lt;- read_excel(&quot;~/Desktop/Player Standard Batting
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhdGluZyBhIG5ldyB0YWJsZSAoTUxCKSB3aXRoIHZhcmlhYmxlcyB0aGF0IGFyZSBuZWNlc3NhcnkgYW5kIHNpZ25pZmljYW50ICYgZXJhc2luZyByb3dzIHRoYXQgY29udGFpbiBOQXMuXG5NTEIgPC0gXG4gIFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nICU+JVxuICBzZWxlY3QoTmFtZSwgVG0sIExnLCBBZ2UsIFIsIEgsIEhSLCBSQkksIEFCLCBCQSwgUE9TKSAjIFBPUyBzaG91bGQgYmUgaW5jbHVkZWQgYnV0IGNvdWxkIG5vdCBiZSBmb3VuZC4uXG5zdHIoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhdGluZyBhIG5ldyB0YWJsZSAoTUxCKSB3aXRoIHZhcmlhYmxlcyB0aGF0IGFyZSBuZWNlc3NhcnkgYW5kIHNpZ25pZmljYW50ICYgZXJhc2luZyByb3dzIHRoYXQgY29udGFpbiBOQXMuXG5QU0IgPC0gXG4gIFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nICU+JVxuICBzZWxlY3QoTmFtZSwgVG0sIExnLCBBZ2UsIFIsIEgsIEhSLCBSQkksIEFCLCBCQSwgUE9TKSAjIFBPUyBzaG91bGQgYmUgaW5jbHVkZWQgYnV0IGNvdWxkIG5vdCBiZSBmb3VuZC4uXG5zdHIoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5gYGAifQ== -->
 <pre class="r"><code># Creating a new table (MLB) with variables that are necessary and significant &amp; erasing rows that contain NAs.
-MLB &lt;- 
+PSB &lt;- 
   Player_Standard_Batting %&gt;%
   select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) # POS should be included but could not be found..
 str(Player_Standard_Batting)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiQ2xhc3NlcyDigJh0YmxfZGbigJksIOKAmHRibOKAmSBhbmQgJ2RhdGEuZnJhbWUnOlx0MTI3MCBvYnMuIG9mICAzMCB2YXJpYWJsZXM6XG4gJCBSayAgOiBudW0gIDEgMiAzIDQgNSA2IDcgOCA5IDEwIC4uLlxuICQgTmFtZTogY2hyICBcIkpvc2XCoEFicmV1XCIgXCJSb25hbGTCoEFjdW5hXCIgXCJKYXNvbsKgQWRhbVwiIFwiV2lsbHnCoEFkYW1lc1wiIC4uLlxuICQgQWdlIDogbnVtICAzMSAyMCAyNiAyMiAyNyAyMyAyOCAyOSAzMyAyOCAuLi5cbiAkIFRtICA6IGNociAgXCJDSFdcIiBcIkFUTFwiIFwiS0NSXCIgXCJUQlJcIiAuLi5cbiAkIExnICA6IGNociAgXCJBTFwiIFwiTkxcIiBcIkFMXCIgXCJBTFwiIC4uLlxuICQgRyAgIDogbnVtICAxMjggMTExIDEgODUgMiAxIDI2IDEyMSA1OSAxMTQgLi4uXG4gJCBQQSAgOiBudW0gIDU1MyA0ODcgMCAzMjMgMCAwIDI5IDMzNyAxODUgMzY2IC4uLlxuICQgQUIgIDogbnVtICA0OTkgNDMzIDAgMjg4IDAgMCAyNSAzMDYgMTc2IDMzNSAuLi5cbiAkIFIgICA6IG51bSAgNjggNzggMCA0MyAwIDAgMTAgNDIgMTkgNDIgLi4uXG4gJCBIICAgOiBudW0gIDEzMiAxMjcgMCA4MCAwIDAgNiA3MyA0NyA4NCAuLi5cbiAkIDJCICA6IG51bSAgMzYgMjYgMCA3IDAgMCAxIDEwIDggMjMgLi4uXG4gJCAzQiAgOiBudW0gIDEgNCAwIDAgMCAwIDAgMCAyIDEgLi4uXG4gJCBIUiAgOiBudW0gIDIyIDI2IDAgMTAgMCAwIDIgMjEgMyA2IC4uLlxuICQgUkJJIDogbnVtICA3OCA2NCAwIDM0IDAgMCA2IDU3IDIxIDM5IC4uLlxuICQgU0IgIDogbnVtICAyIDE2IDAgNiAwIDAgMSAwIDEgNSAuLi5cbiAkIENTICA6IG51bSAgMCA1IDAgNSAwIDAgMCAwIDAgMSAuLi5cbiAkIEJCICA6IG51bSAgMzcgNDUgMCAzMSAwIDAgNCAyNyA2IDI0IC4uLlxuICQgU08gIDogbnVtICAxMDkgMTIzIDAgOTUgMCAwIDggNzMgNDUgODIgLi4uXG4gJCBCQSAgOiBudW0gIDAuMjY1IDAuMjkzIE5BIDAuMjc4IE5BIE5BIDAuMjQgMC4yMzkgMC4yNjcgMC4yNTEgLi4uXG4gJCBPQlAgOiBudW0gIDAuMzI1IDAuMzY2IE5BIDAuMzQ4IE5BIE5BIDAuMzQ1IDAuMzA5IDAuMjkgMC4zMDEgLi4uXG4gJCBTTEcgOiBudW0gIDAuNDczIDAuNTUyIE5BIDAuNDA2IE5BIE5BIDAuNTIgMC40NzcgMC4zODYgMC4zNzkgLi4uXG4gJCBPUFMgOiBudW0gIDAuNzk4IDAuOTE3IE5BIDAuNzU0IE5BIE5BIDAuODY1IDAuNzg2IDAuNjc2IDAuNjggLi4uXG4gJCBPUFMrOiBudW0gIDExOCAxNDQgTkEgMTA5IE5BIE5BIDEzMCAxMDUgODMgODQgLi4uXG4gJCBUQiAgOiBudW0gIDIzNiAyMzkgMCAxMTcgMCAwIDEzIDE0NiA2OCAxMjcgLi4uXG4gJCBHRFAgOiBudW0gIDE0IDQgMCA2IDAgMCAxIDYgMiA0IC4uLlxuICQgSEJQIDogbnVtICAxMSA2IDAgMSAwIDAgMCA0IDAgMSAuLi5cbiAkIFNIICA6IG51bSAgMCAwIDAgMSAwIDAgMCAwIDIgNCAuLi5cbiAkIFNGICA6IG51bSAgNiAzIDAgMiAwIDAgMCAwIDEgMiAuLi5cbiAkIElCQiA6IG51bSAgNyAyIDAgMyAwIDAgMCAzIDAgMiAuLi5cbiAkIFBPUyA6IGNociAgXCIqM0RcIiBcIjc4LzlEXCIgXCIxXCIgXCI2NFwiIC4uLlxuIn0= -->
-<pre><code>Classes ‘tbl_df’, ‘tbl’ and 'data.frame':   1270 obs. of  30 variables:
- $ Rk  : num  1 2 3 4 5 6 7 8 9 10 ...
+<!-- rnb-output-begin eyJkYXRhIjoiQ2xhc3NlcyDigJh0YmxfZGbigJksIOKAmHRibOKAmSBhbmQgJ2RhdGEuZnJhbWUnOlx0MTEzMyBvYnMuIG9mICAyOSB2YXJpYWJsZXM6XG4gJCBOYW1lOiBjaHIgIFwiSm9zZcKgQWJyZXVcIiBcIlJvbmFsZMKgQWN1bmFcIiBcIkphc29uwqBBZGFtXCIgXCJXaWxsecKgQWRhbWVzXCIgLi4uXG4gJCBBZ2UgOiBudW0gIDMxIDIwIDI2IDIyIDI3IDIzIDI4IDMzIDI4IDI4IC4uLlxuICQgVG0gIDogY2hyICBcIkNIV1wiIFwiQVRMXCIgXCJLQ1JcIiBcIlRCUlwiIC4uLlxuICQgTGcgIDogY2hyICBcIkFMXCIgXCJOTFwiIFwiQUxcIiBcIkFMXCIgLi4uXG4gJCBHICAgOiBudW0gIDEyOCAxMTEgMSA4NSAyIDEgMjYgNTkgMTE0IDE0OSAuLi5cbiAkIFBBICA6IG51bSAgNTUzIDQ4NyAwIDMyMyAwIDAgMjkgMTg1IDM2NiA1NjYgLi4uXG4gJCBBQiAgOiBudW0gIDQ5OSA0MzMgMCAyODggMCAwIDI1IDE3NiAzMzUgNDkyIC4uLlxuICQgUiAgIDogbnVtICA2OCA3OCAwIDQzIDAgMCAxMCAxOSA0MiA4MCAuLi5cbiAkIEggICA6IG51bSAgMTMyIDEyNyAwIDgwIDAgMCA2IDQ3IDg0IDEzNSAuLi5cbiAkIDJCICA6IG51bSAgMzYgMjYgMCA3IDAgMCAxIDggMjMgMjUgLi4uXG4gJCAzQiAgOiBudW0gIDEgNCAwIDAgMCAwIDAgMiAxIDAgLi4uXG4gJCBIUiAgOiBudW0gIDIyIDI2IDAgMTAgMCAwIDIgMyA2IDM1IC4uLlxuICQgUkJJIDogbnVtICA3OCA2NCAwIDM0IDAgMCA2IDIxIDM5IDEwOCAuLi5cbiAkIFNCICA6IG51bSAgMiAxNiAwIDYgMCAwIDEgMSA1IDAgLi4uXG4gJCBDUyAgOiBudW0gIDAgNSAwIDUgMCAwIDAgMCAxIDAgLi4uXG4gJCBCQiAgOiBudW0gIDM3IDQ1IDAgMzEgMCAwIDQgNiAyNCA1OCAuLi5cbiAkIFNPICA6IG51bSAgMTA5IDEyMyAwIDk1IDAgMCA4IDQ1IDgyIDE0MyAuLi5cbiAkIEJBICA6IG51bSAgMC4yNjUgMC4yOTMgTkEgMC4yNzggTkEgTkEgMC4yNCAwLjI2NyAwLjI1MSAwLjI3NCAuLi5cbiAkIE9CUCA6IG51bSAgMC4zMjUgMC4zNjYgTkEgMC4zNDggTkEgTkEgMC4zNDUgMC4yOSAwLjMwMSAwLjM1MiAuLi5cbiAkIFNMRyA6IG51bSAgMC40NzMgMC41NTIgTkEgMC40MDYgTkEgTkEgMC41MiAwLjM4NiAwLjM3OSAwLjUzOSAuLi5cbiAkIE9QUyA6IG51bSAgMC43OTggMC45MTcgTkEgMC43NTQgTkEgTkEgMC44NjUgMC42NzYgMC42OCAwLjg5IC4uLlxuICQgT1BTKzogbnVtICAxMTggMTQ0IE5BIDEwOSBOQSBOQSAxMzAgODMgODQgMTM1IC4uLlxuICQgVEIgIDogbnVtICAyMzYgMjM5IDAgMTE3IDAgMCAxMyA2OCAxMjcgMjY1IC4uLlxuICQgR0RQIDogbnVtICAxNCA0IDAgNiAwIDAgMSAyIDQgMTkgLi4uXG4gJCBIQlAgOiBudW0gIDExIDYgMCAxIDAgMCAwIDAgMSA2IC4uLlxuICQgU0ggIDogbnVtICAwIDAgMCAxIDAgMCAwIDIgNCAwIC4uLlxuICQgU0YgIDogbnVtICA2IDMgMCAyIDAgMCAwIDEgMiAxMCAuLi5cbiAkIElCQiA6IG51bSAgNyAyIDAgMyAwIDAgMCAwIDIgMyAuLi5cbiAkIFBPUyA6IGNociAgXCIqM0RcIiBcIjc4LzlEXCIgXCIxXCIgXCI2NFwiIC4uLlxuIn0= -->
+<pre><code>Classes ‘tbl_df’, ‘tbl’ and 'data.frame':   1133 obs. of  29 variables:
  $ Name: chr  &quot;Jose Abreu&quot; &quot;Ronald Acuna&quot; &quot;Jason Adam&quot; &quot;Willy Adames&quot; ...
- $ Age : num  31 20 26 22 27 23 28 29 33 28 ...
+ $ Age : num  31 20 26 22 27 23 28 33 28 28 ...
  $ Tm  : chr  &quot;CHW&quot; &quot;ATL&quot; &quot;KCR&quot; &quot;TBR&quot; ...
  $ Lg  : chr  &quot;AL&quot; &quot;NL&quot; &quot;AL&quot; &quot;AL&quot; ...
- $ G   : num  128 111 1 85 2 1 26 121 59 114 ...
- $ PA  : num  553 487 0 323 0 0 29 337 185 366 ...
- $ AB  : num  499 433 0 288 0 0 25 306 176 335 ...
- $ R   : num  68 78 0 43 0 0 10 42 19 42 ...
- $ H   : num  132 127 0 80 0 0 6 73 47 84 ...
- $ 2B  : num  36 26 0 7 0 0 1 10 8 23 ...
- $ 3B  : num  1 4 0 0 0 0 0 0 2 1 ...
- $ HR  : num  22 26 0 10 0 0 2 21 3 6 ...
- $ RBI : num  78 64 0 34 0 0 6 57 21 39 ...
- $ SB  : num  2 16 0 6 0 0 1 0 1 5 ...
- $ CS  : num  0 5 0 5 0 0 0 0 0 1 ...
- $ BB  : num  37 45 0 31 0 0 4 27 6 24 ...
- $ SO  : num  109 123 0 95 0 0 8 73 45 82 ...
- $ BA  : num  0.265 0.293 NA 0.278 NA NA 0.24 0.239 0.267 0.251 ...
- $ OBP : num  0.325 0.366 NA 0.348 NA NA 0.345 0.309 0.29 0.301 ...
- $ SLG : num  0.473 0.552 NA 0.406 NA NA 0.52 0.477 0.386 0.379 ...
- $ OPS : num  0.798 0.917 NA 0.754 NA NA 0.865 0.786 0.676 0.68 ...
- $ OPS+: num  118 144 NA 109 NA NA 130 105 83 84 ...
- $ TB  : num  236 239 0 117 0 0 13 146 68 127 ...
- $ GDP : num  14 4 0 6 0 0 1 6 2 4 ...
- $ HBP : num  11 6 0 1 0 0 0 4 0 1 ...
- $ SH  : num  0 0 0 1 0 0 0 0 2 4 ...
- $ SF  : num  6 3 0 2 0 0 0 0 1 2 ...
- $ IBB : num  7 2 0 3 0 0 0 3 0 2 ...
+ $ G   : num  128 111 1 85 2 1 26 59 114 149 ...
+ $ PA  : num  553 487 0 323 0 0 29 185 366 566 ...
+ $ AB  : num  499 433 0 288 0 0 25 176 335 492 ...
+ $ R   : num  68 78 0 43 0 0 10 19 42 80 ...
+ $ H   : num  132 127 0 80 0 0 6 47 84 135 ...
+ $ 2B  : num  36 26 0 7 0 0 1 8 23 25 ...
+ $ 3B  : num  1 4 0 0 0 0 0 2 1 0 ...
+ $ HR  : num  22 26 0 10 0 0 2 3 6 35 ...
+ $ RBI : num  78 64 0 34 0 0 6 21 39 108 ...
+ $ SB  : num  2 16 0 6 0 0 1 1 5 0 ...
+ $ CS  : num  0 5 0 5 0 0 0 0 1 0 ...
+ $ BB  : num  37 45 0 31 0 0 4 6 24 58 ...
+ $ SO  : num  109 123 0 95 0 0 8 45 82 143 ...
+ $ BA  : num  0.265 0.293 NA 0.278 NA NA 0.24 0.267 0.251 0.274 ...
+ $ OBP : num  0.325 0.366 NA 0.348 NA NA 0.345 0.29 0.301 0.352 ...
+ $ SLG : num  0.473 0.552 NA 0.406 NA NA 0.52 0.386 0.379 0.539 ...
+ $ OPS : num  0.798 0.917 NA 0.754 NA NA 0.865 0.676 0.68 0.89 ...
+ $ OPS+: num  118 144 NA 109 NA NA 130 83 84 135 ...
+ $ TB  : num  236 239 0 117 0 0 13 68 127 265 ...
+ $ GDP : num  14 4 0 6 0 0 1 2 4 19 ...
+ $ HBP : num  11 6 0 1 0 0 0 0 1 6 ...
+ $ SH  : num  0 0 0 1 0 0 0 2 4 0 ...
+ $ SF  : num  6 3 0 2 0 0 0 1 2 10 ...
+ $ IBB : num  7 2 0 3 0 0 0 0 2 3 ...
  $ POS : chr  &quot;*3D&quot; &quot;78/9D&quot; &quot;1&quot; &quot;64&quot; ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBdmVyYWdlIEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlXG5NTEIgJT4lXG4gIHN1bW1hcmlzZShCQSA9IG1lYW4oQkEsIG5hLnJtID0gVFJVRSkgLCBIID0gbWVhbihILCBuYS5ybSA9IFRSVUUpKSAjIFBpdGNoZXJzIEJhdHRpbmcgQXZlcmFnZSBleGNsdWRlZCBcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBdmVyYWdlIEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlXG5QU0IgJT4lXG4gIHN1bW1hcmlzZShCQSA9IG1lYW4oQkEsIG5hLnJtID0gVFJVRSkgLCBIID0gbWVhbihILCBuYS5ybSA9IFRSVUUpKSAjIFBpdGNoZXJzIEJhdHRpbmcgQXZlcmFnZSBleGNsdWRlZCBcbmBgYCJ9 -->
 <pre class="r"><code># Average Hits and Batting aveage
-MLB %&gt;%
+PSB %&gt;%
   summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFPdzdDTUF4MTB3WkVKVDRTQ3lkQUxIUmdZZVFqQm1ZbTFsQUtWSlNrYW9OZzVBWndKaFlrVm03RFVIQktJcUY0Y0o1Zm5oMi9MR2JMZ2IvMEFZQ0FTeDBnTGtLUFlITEFnNW82endCdXV4UUFOQlF4ZXZUZTlQNjZtbm84N25hS0o3dFpqVFJNV0o0amFQMlIvcHBKRm13eWRvaHNPVWZPeUlrbXlYUmkxcGhiK2xvbVRvSHBxU3Z0QmRNSEE0L0NFbGRGS21QQlVVcVVGV3B0NVdRVzBUeHlOWHJkRDNkSHZ1OFAxZWJsOVMvcUdqdC9tUHllZEQ5NkZOV2pLaEhmeGp3eUxoTzJpaEpkTk5CQzZTQklzNWhMODBYSTVvRVVraG1kSDRyRU1LVTNLTDdJVEQ3Q3VBRUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBPdzdDTUF4MVV3cWlFaCtKaFV2UUFiRXg4QkVTekV5c29SU29LQWxxZzBCTVNIQVJUc010dUFJM0FKeTBsbEE4T1BhTDM3UGZmTExvK2dzZkFCaTRuZ1BNeGJMRU1EbFFncXArendCdXl3d0ExRFV3ZVBiYjh2VytVRDhjeHZmSDh6YTFpSjdnK3lqRG9tbklPY2pHSTlLZFdmUFZWSjRDNHRUMDdCWFRGOE1XRGhPZWtUQ0Ivb29ySHF4VDVHUDNzU2dWZVZDeEZFaGkyb3Bua1ozVUFocEhvUzlaZGNMdFVldzZQYjNBZk9kUksycm5yMmI1U3ZZdHBMeENxaHlKVFN3aXVqM2h5eWdwbWpvNk5vYURReG9MUlU0UXpRSWxGYWM1UDVRSkljWWJmSDUzKytLbnVBRUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["BA"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["H"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.180938","2":"32.29764"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+{"columns":[{"label":["BA"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["H"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.181491","2":"32.82436"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBNb3N0IEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlXG5NTEIgJT4lXG4gIGZpbHRlcihBQiA+PSAzMDApICU+JSAgICAgICAgIyBGaWx0ZXJpbmcgb3V0IHBsYXllcnMgd2hvIHdlcmUgbm90IGF0IGJhdCBsZXNzIHRoYW4gMzAwIGdhbWVzXG4gIHN1bW1hcmlzZShCQSA9IG1heChCQSwgbmEucm0gPSBUUlVFKSwgSCA9IG1heChILCBuYS5ybSA9IFRSVUUpKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBNb3N0IEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlXG5QU0IgJT4lXG4gIGZpbHRlcihBQiA+PSAzMDApICU+JSAgICAgICAgIyBGaWx0ZXJpbmcgb3V0IHBsYXllcnMgd2hvIHdlcmUgbm90IGF0IGJhdCBsZXNzIHRoYW4gMzAwIGdhbWVzXG4gIHN1bW1hcmlzZShCQSA9IG1heChCQSwgbmEucm0gPSBUUlVFKSwgSCA9IG1heChILCBuYS5ybSA9IFRSVUUpKVxuYGBgIn0= -->
 <pre class="r"><code># Most Hits and Batting aveage
-MLB %&gt;%
+PSB %&gt;%
   filter(AB &gt;= 300) %&gt;%        # Filtering out players who were not at bat less than 300 games
   summarise(BA = max(BA, na.rm = TRUE), H = max(H, na.rm = TRUE))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVF2UTZDTUJBK2ltZ2tFVTNjbkYzRnhNWFJuemc0TzdsV1FDRmlTNkJFUjkvRU4vRXgzSHdWOElwdG9yM2grdDNYNzY3M2RiZlp6OXk5Q3dBRWJNY0NZaU5zRVV3V3RLQXJ6eHVBUFd3RUFKNGtGcS94ZXpwNlBIVzlqRUhGWDZNVHBMUW9FQXgrU0Rla2d2ckhuRjRpVTg2UTAzS2lTTEplNlRXMmhyNmI4NnV2ZTNwU2U4ZFVZK0JSR2VJT3owVENHVXFKdE9JWVcxbTVRZlJMSmtlSGt5QXUyWGt5bDVzMzE5L29LV3o5WVBKOTBxN1ZLRWVOYWtmc2xMQkl1MHpwSVVwVjRhR0Z4b0dmNVFrVCtvdVFMWHpCQmRVNk4rQ3BaaHB2VUgwQStiU0EwYmdCQUFBPSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBPdzdDTUF4MVV3cWlFaCtKalptVklpRjJQbUpnWm1JTnBVQkZTVkFiQkNNMzRTWWNnNDJyQUU0YVN4QVBqdjNpOSt5M25LK0c0U29FQUFaKzRBSHpzYXd3VEI1VW9LN2ZLNERmTVFNQVRRMk1uNzNYb0h0L1VEL1pnNDAvWWlENE1TbXdhQnR5Q2JMWmxIUVh6bnc5bDVlSU9BMDllOFAwd1hDRjQ0d1hKRXhndU9HS1I5c2MrZGk5SFVwTm5sUXFCWktZdGhJNFpDOTNnTlpaNkVzMi9YaC9Gb2YrU0M4dzMyVTBiTzM5MUt4Y3lUNVdLckJTMVVUc1VwSFE3UmxmSjVsdG11allHSTVPZVNvVU9VRzBpSlJVbk9iQ1dHYUVHRy93L2dKckk0VUt1QUVBQUE9PSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["BA"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["H"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.346","2":"192"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -276,46 +279,91 @@ MLB %&gt;%
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="need-to-be-improved" class="section level2">
-<h2>Need to be improved</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDb3VudGluZyB0aGUgbnVtYmVyIG9mIHBsYXllcnMgd2hvIGFyZSAyNyB5ZWFycyBvbGQgaW4gZWFjaCB0ZWFtICYgUmVtb3ZpbmcgcGl0Y2hlcnMgYW5kIGR1cGxpY2F0ZWQgbmFtZXMgZnJvbSB0aGUgZGF0YSB0YWJsZSBvY2N1cmVkIGR1ZSB0byB0cmFkZSBkdXJpbmcgc2Vhc29uLlxuTUxCICU+JVxuICBncm91cF9ieShUbSkgJT4lXG4gIGZpbHRlcihBZ2UgPj0gMjcpICU+JVxuICBmaWx0ZXIoUE9TICE9IFwiMVwiKSAlPiUgIyBQaXRjaGVycyBoYXZlIGEgbnVtYmVyIHBvc2l0aW9uID0gMSAvIFBPUyBkb2VzIG5vdCB3b3JrIFxuICBzdW1tYXJpc2UoY291bnQgPSBuKCApKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDb3VudGluZyB0aGUgbnVtYmVyIG9mIHBsYXllcnMgd2hvIGFyZSAyNyB5ZWFycyBvbGQgaW4gZWFjaCB0ZWFtICYgUmVtb3ZpbmcgcGl0Y2hlcnMgYW5kIGR1cGxpY2F0ZWQgbmFtZXMgZnJvbSB0aGUgZGF0YSB0YWJsZSBvY2N1cmVkIGR1ZSB0byB0cmFkZSBkdXJpbmcgc2Vhc29uLlxuUFNCICU+JVxuICBncm91cF9ieShUbSkgJT4lXG4gIGZpbHRlcihBZ2UgPj0gMjcpICU+JVxuICBmaWx0ZXIoUE9TICE9IFwiMVwiKSAlPiUgIyBQaXRjaGVycyBoYXZlIGEgbnVtYmVyIHBvc2l0aW9uID0gMSAvIFBPUyBkb2VzIG5vdCB3b3JrIFxuICBzdW1tYXJpc2UoY291bnQgPSBuKCApKSAlPiVcbiAgYXJyYW5nZShkZXNjKGNvdW50KSlcbmBgYCJ9 -->
 <pre class="r"><code># Counting the number of players who are 27 years old in each team &amp; Removing pitchers and duplicated names from the data table occured due to trade during season.
-MLB %&gt;%
+PSB %&gt;%
   group_by(Tm) %&gt;%
   filter(Age &gt;= 27) %&gt;%
   filter(POS != &quot;1&quot;) %&gt;% # Pitchers have a number position = 1 / POS does not work 
-  summarise(count = n( ))</code></pre>
+  summarise(count = n( )) %&gt;%
+  arrange(desc(count))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBMTJTelhLQ01CREhReEN0V0QvYVBvQlBJSWRPTHoyaTBNcUk0Z2dkOVVpVnRrNFJITVJwajMzVnZvZzB3R1pqWVdhenYyeisyV1EzTEl6VnZicFNDU0dVeUlwRXFNeXdSdGtna1JwcDV2NmJFUG11RUJEU1k5YUhCVmxmV0lpZXpYR29DM1JjanFQeFNPQVMwWm9oMmlhaWd4a00wK000ZGw0NFRrWUxqcmF1Q3pRNFRpMWRvQzBRVDV1dHB3TFhIQjE5d25FK3h0cm1GdDdCTmVhSUpoN2hQajBqaWo1NFE3eWtaNjRRSFJGMU1PL1NuVEhYTHBwYk5ya0w4dzc0SzJZcWNJdFpFK1lOMEYrRHRnZmF6b1d2Z3piZmQ4UHNGdlF0V012NW9kVCtlM2xsRS9ySEl5VGxRWFhycDc3Mmx2ajdvQ3FQV0l6TEtRU3B0OGRzOFNsS0szdWFTZnlsOFgxNWJmU0hEVm1XL1RKM3JvZ2I4U0hkeFJHVDB2eC9WQ28zazVKS29IdUs4dFRid2ViakZIME9IcUVORWltL05uRC9nbWw1cEp4QktnVlMxWVBvZlJjRnZKVFFmdzFDbUhSWUNVVUYyaUhac1FLaFRTeDYxTkk0OWJsTzNjUWhqeFMxa2ZNZjV4U0dYWDBEQUFBPSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBMjFTVzI2Q1FCUzlERklycmRySEFseUJmRFRwQWxCb0pUNHdRcU4rVXFTdEtRNEdNZTFudDlxTlNBZWN1VU5JU2M3TW1Udm5Qb2VGdFhyUVZ6b0FFRkExQllqS2FJT3dSWUVHdElyOUcwQzlMd1VBTnd3OWZxRjZUODlJYlZOUWMrRUlPakhST25VbUtQQ1JEbHhQQ2xBN1cwOEZkYzJ4b0V0dmhtNG1SaGlPaGtnbnRreHNZV1V5bSs4dVVPdWkxYlBtS0JoSWdZUFpSdTZMb0hQSEY5U3lmVm5EVW5ZeGsxMnNCUjBQTWU1OGhOUHg3WldzekdkYnV4d3V3QjNETFIrMlFKZWg4dy9hRlZ4WGNGV0JYa0dSN3JLQ0pzTUZoMXA3ZVkwR3UrakFDeURjU1B5ZHVBNlRJODFxUHEwMCtUS0VYMUVVK1dGTG51ZS85ZUJoSEJ4RWNHSFVOMEVXR0c4cDgyZW5VODJsbWV5emJVS1pFeW4rUjYzbXJLUTFRL2RJaTBvMi9mRGpTRC83ajN3RUNweS9OdWU5Q2lmbmxDVG5vVFFlNmlLaTcxc2FpZHJqNERXSythSERPaTRiTnZicGxzMkRkOEtzQnlOTHNrRG85RENKaGFYc0RVNS9WdmMwUjMwREFBQT0ifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Tm"],"name":[1],"type":["chr"],"align":["left"]},{"label":["count"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"ARI","2":"16"},{"1":"ATL","2":"15"},{"1":"BAL","2":"13"},{"1":"BOS","2":"14"},{"1":"CHC","2":"13"},{"1":"CHW","2":"8"},{"1":"CIN","2":"10"},{"1":"CLE","2":"13"},{"1":"COL","2":"11"},{"1":"DET","2":"9"},{"1":"HOU","2":"10"},{"1":"KCR","2":"7"},{"1":"LAA","2":"16"},{"1":"LAD","2":"12"},{"1":"MIA","2":"14"},{"1":"MIL","2":"16"},{"1":"MIN","2":"8"},{"1":"NYM","2":"14"},{"1":"NYY","2":"8"},{"1":"OAK","2":"14"},{"1":"PHI","2":"6"},{"1":"PIT","2":"10"},{"1":"SDP","2":"11"},{"1":"SEA","2":"17"},{"1":"SFG","2":"18"},{"1":"STL","2":"12"},{"1":"TBR","2":"11"},{"1":"TEX","2":"6"},{"1":"TOR","2":"12"},{"1":"TOT","2":"52"},{"1":"WSN","2":"14"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[31]},"pages":{}}}
+{"columns":[{"label":["Tm"],"name":[1],"type":["chr"],"align":["left"]},{"label":["count"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"SFG","2":"18"},{"1":"SEA","2":"17"},{"1":"ARI","2":"16"},{"1":"LAA","2":"16"},{"1":"MIL","2":"16"},{"1":"ATL","2":"15"},{"1":"BOS","2":"14"},{"1":"MIA","2":"14"},{"1":"NYM","2":"14"},{"1":"OAK","2":"14"},{"1":"WSN","2":"14"},{"1":"BAL","2":"13"},{"1":"CHC","2":"13"},{"1":"CLE","2":"13"},{"1":"LAD","2":"12"},{"1":"STL","2":"12"},{"1":"TOR","2":"12"},{"1":"COL","2":"11"},{"1":"SDP","2":"11"},{"1":"TBR","2":"11"},{"1":"CIN","2":"10"},{"1":"HOU","2":"10"},{"1":"PIT","2":"10"},{"1":"DET","2":"9"},{"1":"CHW","2":"8"},{"1":"MIN","2":"8"},{"1":"NYY","2":"8"},{"1":"KCR","2":"7"},{"1":"PHI","2":"6"},{"1":"TEX","2":"6"},{"1":"TOT","2":"3"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[31]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="relationship-between-age-and-single-hits" class="section level2">
-<h2>Relationship between age and single hits</h2>
+<div id="summarizing-data-from-table-salary" class="section level2">
+<h2>Summarizing data from table ‘Salary’</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTUxCMiA8LVxuICBmaWx0ZXIoQWdlID49IDI3KVxuYGBgIn0= -->
-<pre class="r"><code>MLB2 &lt;-
-  filter(Age &gt;= 27)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOdW1iZXIgb2YgcGxheWVycyB3aG8gZWFybmVkIG1vcmUgdGhhbiB0aGUgYXZlcmFnZSBzYWxhcnkgaW4gMjAxOFxuU2FsYXJ5ICU+JVxuICBmaWx0ZXIoQVZHID4gNDUyMDAwMCkgJT4lIFxuICBmaWx0ZXIoUE9TICE9IFwiMVwiKSAlPiVcbiAgc3VtbWFyaXNlKGNvdW50ID0gbigpKVxuYGBgIn0= -->
+<pre class="r"><code># Number of players who earned more than the average salary in 2018
+Salary %&gt;%
+  filter(AVG &gt; 4520000) %&gt;% 
+  filter(POS != &quot;1&quot;) %&gt;%
+  summarise(count = n())</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gZmlsdGVyKEFnZSA+PSAyNykgOiBvYmplY3QgJ0FnZScgbm90IGZvdW5kXG4ifQ== -->
-<pre><code>Error in filter(Age &gt;= 27) : object 'Age' not found</code></pre>
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MSwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFTdzdDSUJDZDBsWlRFaitKNXlnTE4xN0FFN2pxRm1uVlJvU0cwdWpTMjNtcjFxR0JSR0V4bjVkNWIrWnhPbFo3V2xFQUlKRG1DWkFVeTR4Z1NDQ0R3dVVYUUxxYkFZQ1Z6NTlvS0ZmODBmUlliSDlCb1FkbG84bkM2Q2NMMDA2T3ZERk0rR0pKSVhrZlM5S2FXODR1QnZuWWpSRmxxVHZiYW9VazRnN09JM0ppSW1BektIZEpYWXJib083bHdTM3dCdUhIYlBKZnU1Vms4bEs1bDFvMDZ0cXFKdHd1K2JtUnZsbWo0OWt3NjB5TC8rR2RJTm96cXkwUGMxUm9HWkRaRzR4ZlNua3VhSjRCQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["count"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"199"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuU2FsYXJ5ICU+JVxuICBncm91cF9ieShUbSkgJT4lXG4gIGZpbHRlcihBVkcgPiA0NTIwMDAwKSAlPiVcbiAgZmlsdGVyKFBPUyAhPSBcIjFcIikgJT4lICMgUGl0Y2hlcnMgaGF2ZSBhIG51bWJlciBwb3NpdGlvbiA9IDEgLyBQT1MgZG9lcyBub3Qgd29yayBcbiAgc3VtbWFyaXNlKGNvdW50ID0gbiggKSkgJT4lXG4gIGFycmFuZ2UoZGVzYyhjb3VudCkpXG5gYGAifQ== -->
+<pre class="r"><code>Salary %&gt;%
+  group_by(Tm) %&gt;%
+  filter(AVG &gt; 4520000) %&gt;%
+  filter(POS != &quot;1&quot;) %&gt;% # Pitchers have a number position = 1 / POS does not work 
+  summarise(count = n( )) %&gt;%
+  arrange(desc(count))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBM1dSejA2RFFCREdod1ZhaTZtYTlBSDZCT1hneGZNV1VKcitvUUZNMnlOUzFFWUtEYVhSbzYvcWl4UVgzRmtJcVNRZi9IYVliM1ptMXpYWDk5cGFBd0FDc2lvQmtSa3FoTDBrVUtCWGZyOEE1RUdWQUhESE5PUS9aTnQ1Umx4czVvaUdNME1jT3g3aWpGTEU1Y1JIWEhtMnlLWENac3dzUk04U051L3hTYUJmNTlvRzRueXlxTnZaSURwMGl1ZzdidDJPS1NyVXRxVTlFVnVZUzVHd0VsT1lsbWg5YXJqMXhyUkcwWmx2clJHcEsrcFMwYnJpajExUmdqSDc5S3ZUQmJqbUtxK2wxOUxWQlhVdnFNT2tOcVQ4STdraDBycDZOUW4yMFpGZk8rRkI0dS94ZDVpZWtyemw2V1hwcDQ2K2NpRHl6VjVGVWZ5MGk0ZHhjTVRpR05TMlFSN29yeG56czlXNVplbW1oM3lYSnN4RUJueXNwbG5LV29IYlUxSjJzaDJGNzZma1kvVEFqMVNDdjZmUGVkaGdmZ1NrNEtWVVhxb1RKVys3Sk1MZTQrQWxpdm5paGsxY0Rhd2ZzaDA3RHo0Sml4NzFQTTBEek5QQ05NWklOUnVjZndIQWJUWXJmZ01BQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Tm"],"name":[1],"type":["chr"],"align":["left"]},{"label":["count"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"HOU","2":"11"},{"1":"NYM","2":"11"},{"1":"COL","2":"10"},{"1":"BOS","2":"9"},{"1":"LAA","2":"9"},{"1":"PIT","2":"9"},{"1":"WSH","2":"9"},{"1":"BAL","2":"8"},{"1":"CLE","2":"8"},{"1":"SEA","2":"8"},{"1":"SFG","2":"8"},{"1":"STL","2":"8"},{"1":"CHC","2":"7"},{"1":"MIN","2":"7"},{"1":"NYY","2":"7"},{"1":"OAK","2":"7"},{"1":"TOR","2":"7"},{"1":"LAD","2":"6"},{"1":"CIN","2":"5"},{"1":"PHI","2":"5"},{"1":"SDP","2":"5"},{"1":"CWS","2":"4"},{"1":"DET","2":"4"},{"1":"KCR","2":"4"},{"1":"MIA","2":"4"},{"1":"MIL","2":"4"},{"1":"TEX","2":"4"},{"1":"ARI","2":"3"},{"1":"ATL","2":"3"},{"1":"TBRR","2":"3"},{"1":"TBR","2":"2"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[31]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="joining-two-tables-player-standard-batting-salary" class="section level2">
+<h2>Joining two tables = ‘Player Standard Batting’ &amp; ‘Salary’</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTUxCIDwtXG4gIFBTQiAlPiVcbiAgaW5uZXJfam9pbihTYWxhcnkpICU+JVxuICBzZWxlY3QoTmFtZSlcbmBgYCJ9 -->
+<pre class="r"><code>MLB &lt;-
+  PSB %&gt;%
+  inner_join(Salary) %&gt;%
+  select(Name)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiSm9pbmluZywgYnkgPSBjKFwiTmFtZVwiLCBcIlRtXCIsIFwiUE9TXCIpXG4ifQ== -->
+<pre><code>Joining, by = c(&quot;Name&quot;, &quot;Tm&quot;, &quot;POS&quot;)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVmlldyhNTEIpXG5TYWxhcnkgJT4lXG4gIHNlbGVjdChOYW1lLCBUbSwgUE9TLCBgQVZHIEFOTlVBTGApICU+JVxuYGBgIn0= -->
+<pre class="r"><code>View(MLB)
+Salary %&gt;%
+  select(Name, Tm, POS, `AVG ANNUAL`) %&gt;%</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IEluY29tcGxldGUgZXhwcmVzc2lvbjogU2FsYXJ5ID5cbiAgc2VsZWN0KE5hbWUsIFRtLCBQT1MsIGBBVkcgQU5OVUFMYCkgPlxuIn0= -->
+<pre><code>Error: Incomplete expression: Salary &gt;
+  select(Name, Tm, POS, `AVG ANNUAL`) &gt;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIKb3V0cHV0OiBodG1sX25vdGVib29rCk5hbWU6IERhbmllbCBMZWUKLS0tCgojIyMgU2V0dXAKYGBge3J9CnJtKGxpc3QgPSBscygpKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KHJ2ZXN0KQpsaWJyYXJ5KHJlYWR4bCkKUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgPC0gcmVhZF9leGNlbCgifi9EZXNrdG9wL1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3giKQoKYGBgCgojIyMgVVJMICYgeHBhdGggKE5vdCB3b3JraW5nICYgTmVlZCB0byBiZSBmaXhlZCkKYGBge3J9CiMgZG93bmxvYWQuZmlsZSh1cmwgPSAiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sIiwgZGVzdGZpbGUgPSAiQmF0dGluZyIpCiMgCiMgWFBBVEggPC0gJy8vKltAaWQ9InBsYXllcnNfc3RhbmRhcmRfYmF0dGluZyJdJwojIAojIERhdGFUYWJsZSA8LSByZWFkUkRTKCJCYXR0aW5nIikKIyAKIyB3ZWJfcGFnZSA8LSAiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sIiwgZGVzdGZpbGUgPSAiQmF0dGluZyIKCmBgYAoKYGBge3J9CiMgQ3JlYXRpbmcgYSBuZXcgdGFibGUgKE1MQikgd2l0aCB2YXJpYWJsZXMgdGhhdCBhcmUgbmVjZXNzYXJ5IGFuZCBzaWduaWZpY2FudCAmIGVyYXNpbmcgcm93cyB0aGF0IGNvbnRhaW4gTkFzLgpNTEIgPC0gCiAgUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgJT4lCiAgc2VsZWN0KE5hbWUsIFRtLCBMZywgQWdlLCBSLCBILCBIUiwgUkJJLCBBQiwgQkEsIFBPUykgIyBQT1Mgc2hvdWxkIGJlIGluY2x1ZGVkIGJ1dCBjb3VsZCBub3QgYmUgZm91bmQuLgoKc3RyKFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nKQoKIyBBdmVyYWdlIEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlCk1MQiAlPiUKICBzdW1tYXJpc2UoQkEgPSBtZWFuKEJBLCBuYS5ybSA9IFRSVUUpICwgSCA9IG1lYW4oSCwgbmEucm0gPSBUUlVFKSkgIyBQaXRjaGVycyBCYXR0aW5nIEF2ZXJhZ2UgZXhjbHVkZWQgCgojIE1vc3QgSGl0cyBhbmQgQmF0dGluZyBhdmVhZ2UKTUxCICU+JQogIGZpbHRlcihBQiA+PSAzMDApICU+JSAgICAgICAgIyBGaWx0ZXJpbmcgb3V0IHBsYXllcnMgd2hvIHdlcmUgbm90IGF0IGJhdCBsZXNzIHRoYW4gMzAwIGdhbWVzCiAgc3VtbWFyaXNlKEJBID0gbWF4KEJBLCBuYS5ybSA9IFRSVUUpLCBIID0gbWF4KEgsIG5hLnJtID0gVFJVRSkpCmBgYAoKIyMgTmVlZCB0byBiZSBpbXByb3ZlZApgYGB7cn0KIyBDb3VudGluZyB0aGUgbnVtYmVyIG9mIHBsYXllcnMgd2hvIGFyZSAyNyB5ZWFycyBvbGQgaW4gZWFjaCB0ZWFtICYgUmVtb3ZpbmcgcGl0Y2hlcnMgYW5kIGR1cGxpY2F0ZWQgbmFtZXMgZnJvbSB0aGUgZGF0YSB0YWJsZSBvY2N1cmVkIGR1ZSB0byB0cmFkZSBkdXJpbmcgc2Vhc29uLgoKTUxCICU+JQogIGdyb3VwX2J5KFRtKSAlPiUKICBmaWx0ZXIoQWdlID49IDI3KSAlPiUKICBmaWx0ZXIoUE9TICE9ICIxIikgJT4lICMgUGl0Y2hlcnMgaGF2ZSBhIG51bWJlciBwb3NpdGlvbiA9IDEgLyBQT1MgZG9lcyBub3Qgd29yayAKICBzdW1tYXJpc2UoY291bnQgPSBuKCApKQoKYGBgCgojIyBSZWxhdGlvbnNoaXAgYmV0d2VlbiBhZ2UgYW5kIHNpbmdsZSBoaXRzCmBgYHtyfQpNTEIgJT4lCiAgZ2dwbG90KGFlcyh4PSBBZ2UsIHk9IEgpKSArIAogIGdlb21fZGVuc2l0eSgpICsKICB4bGFiKCJBZ2UgKHlycykiKSArIHlsYWIoIlNpbmdsZSBIaXRzIikgKwogIApgYGAKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIKb3V0cHV0OiBodG1sX25vdGVib29rCk5hbWU6IERhbmllbCBMZWUKLS0tCgojIyMgU2V0dXAKYGBge3J9CnJtKGxpc3QgPSBscygpKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KHJ2ZXN0KQpsaWJyYXJ5KHJlYWR4bCkKUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgPC0gcmVhZF9leGNlbCgifi9EZXNrdG9wL1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3giKQpWaWV3KFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nKQpsaWJyYXJ5KHJlYWR4bCkKU2FsYXJ5IDwtIHJlYWRfZXhjZWwoIn4vRGVza3RvcC9TYWxhcnkueGxzeCIpClZpZXcoU2FsYXJ5KQoKYGBgCgojIyMgVVJMICYgeHBhdGggKE5vdCB3b3JraW5nICYgTmVlZCB0byBiZSBmaXhlZCkKYGBge3J9CiMgZG93bmxvYWQuZmlsZSh1cmwgPSAiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sIiwgZGVzdGZpbGUgPSAiQmF0dGluZyIpCiMgCiMgWFBBVEggPC0gJy8vKltAaWQ9InBsYXllcnNfc3RhbmRhcmRfYmF0dGluZyJdJwojIAojIERhdGFUYWJsZSA8LSByZWFkUkRTKCJCYXR0aW5nIikKIyAKIyB3ZWJfcGFnZSA8LSAiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sIiwgZGVzdGZpbGUgPSAiQmF0dGluZyIKCmBgYAoKYGBge3J9CiMgQ3JlYXRpbmcgYSBuZXcgdGFibGUgKE1MQikgd2l0aCB2YXJpYWJsZXMgdGhhdCBhcmUgbmVjZXNzYXJ5IGFuZCBzaWduaWZpY2FudCAmIGVyYXNpbmcgcm93cyB0aGF0IGNvbnRhaW4gTkFzLgpQU0IgPC0gCiAgUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgJT4lCiAgc2VsZWN0KE5hbWUsIFRtLCBMZywgQWdlLCBSLCBILCBIUiwgUkJJLCBBQiwgQkEsIFBPUykgIyBQT1Mgc2hvdWxkIGJlIGluY2x1ZGVkIGJ1dCBjb3VsZCBub3QgYmUgZm91bmQuLgoKc3RyKFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nKQoKIyBBdmVyYWdlIEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlClBTQiAlPiUKICBzdW1tYXJpc2UoQkEgPSBtZWFuKEJBLCBuYS5ybSA9IFRSVUUpICwgSCA9IG1lYW4oSCwgbmEucm0gPSBUUlVFKSkgIyBQaXRjaGVycyBCYXR0aW5nIEF2ZXJhZ2UgZXhjbHVkZWQgCgojIE1vc3QgSGl0cyBhbmQgQmF0dGluZyBhdmVhZ2UKUFNCICU+JQogIGZpbHRlcihBQiA+PSAzMDApICU+JSAgICAgICAgIyBGaWx0ZXJpbmcgb3V0IHBsYXllcnMgd2hvIHdlcmUgbm90IGF0IGJhdCBsZXNzIHRoYW4gMzAwIGdhbWVzCiAgc3VtbWFyaXNlKEJBID0gbWF4KEJBLCBuYS5ybSA9IFRSVUUpLCBIID0gbWF4KEgsIG5hLnJtID0gVFJVRSkpCmBgYAoKYGBge3J9CiMgQ291bnRpbmcgdGhlIG51bWJlciBvZiBwbGF5ZXJzIHdobyBhcmUgMjcgeWVhcnMgb2xkIGluIGVhY2ggdGVhbSAmIFJlbW92aW5nIHBpdGNoZXJzIGFuZCBkdXBsaWNhdGVkIG5hbWVzIGZyb20gdGhlIGRhdGEgdGFibGUgb2NjdXJlZCBkdWUgdG8gdHJhZGUgZHVyaW5nIHNlYXNvbi4KClBTQiAlPiUKICBncm91cF9ieShUbSkgJT4lCiAgZmlsdGVyKEFnZSA+PSAyNykgJT4lCiAgZmlsdGVyKFBPUyAhPSAiMSIpICU+JSAjIFBpdGNoZXJzIGhhdmUgYSBudW1iZXIgcG9zaXRpb24gPSAxIC8gUE9TIGRvZXMgbm90IHdvcmsgCiAgc3VtbWFyaXNlKGNvdW50ID0gbiggKSkgJT4lCiAgYXJyYW5nZShkZXNjKGNvdW50KSkKCmBgYAoKIyMgU3VtbWFyaXppbmcgZGF0YSBmcm9tIHRhYmxlICdTYWxhcnknCmBgYHtyfQojIE51bWJlciBvZiBwbGF5ZXJzIHdobyBlYXJuZWQgbW9yZSB0aGFuIHRoZSBhdmVyYWdlIHNhbGFyeSBpbiAyMDE4ClNhbGFyeSAlPiUKICBmaWx0ZXIoQVZHID4gNDUyMDAwMCkgJT4lIAogIGZpbHRlcihQT1MgIT0gIjEiKSAlPiUKICBzdW1tYXJpc2UoY291bnQgPSBuKCkpCgpTYWxhcnkgJT4lCiAgZ3JvdXBfYnkoVG0pICU+JQogIGZpbHRlcihBVkcgPiA0NTIwMDAwKSAlPiUKICBmaWx0ZXIoUE9TICE9ICIxIikgJT4lICMgUGl0Y2hlcnMgaGF2ZSBhIG51bWJlciBwb3NpdGlvbiA9IDEgLyBQT1MgZG9lcyBub3Qgd29yayAKICBzdW1tYXJpc2UoY291bnQgPSBuKCApKSAlPiUKICBhcnJhbmdlKGRlc2MoY291bnQpKQoKYGBgCiMjIEpvaW5pbmcgdHdvIHRhYmxlcyA9ICdQbGF5ZXIgU3RhbmRhcmQgQmF0dGluZycgJiAnU2FsYXJ5JwpgYGB7cn0KTUxCIDwtCiAgUFNCICU+JQogIGlubmVyX2pvaW4oU2FsYXJ5KSAlPiUKICBzZWxlY3QoTmFtZSkKClZpZXcoTUxCKQoKClNhbGFyeSAlPiUKICBzZWxlY3QoTmFtZSwgVG0sIFBPUywgYEFWRyBBTk5VQUxgKSAlPiUKYGBgCgo=</div>
 
 
 

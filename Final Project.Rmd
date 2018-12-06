@@ -13,6 +13,10 @@ library(mosaic)
 library(rvest)
 library(readxl)
 Player_Standard_Batting <- read_excel("~/Desktop/Player Standard Batting.xlsx")
+View(Player_Standard_Batting)
+library(readxl)
+Salary <- read_excel("~/Desktop/Salary.xlsx")
+View(Salary)
 
 ```
 
@@ -30,40 +34,61 @@ Player_Standard_Batting <- read_excel("~/Desktop/Player Standard Batting.xlsx")
 
 ```{r}
 # Creating a new table (MLB) with variables that are necessary and significant & erasing rows that contain NAs.
-MLB <- 
+PSB <- 
   Player_Standard_Batting %>%
   select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) # POS should be included but could not be found..
 
 str(Player_Standard_Batting)
 
 # Average Hits and Batting aveage
-MLB %>%
+PSB %>%
   summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded 
 
 # Most Hits and Batting aveage
-MLB %>%
+PSB %>%
   filter(AB >= 300) %>%        # Filtering out players who were not at bat less than 300 games
   summarise(BA = max(BA, na.rm = TRUE), H = max(H, na.rm = TRUE))
 ```
 
-## Need to be improved
 ```{r}
 # Counting the number of players who are 27 years old in each team & Removing pitchers and duplicated names from the data table occured due to trade during season.
 
-MLB %>%
+PSB %>%
   group_by(Tm) %>%
   filter(Age >= 27) %>%
   filter(POS != "1") %>% # Pitchers have a number position = 1 / POS does not work 
-  summarise(count = n( ))
+  summarise(count = n( )) %>%
+  arrange(desc(count))
 
 ```
 
-## Relationship between age and single hits
+## Summarizing data from table 'Salary'
 ```{r}
-MLB %>%
-  ggplot(aes(x= Age, y= H)) + 
-  geom_density() +
-  xlab("Age (yrs)") + ylab("Single Hits") +
-  
+# Number of players who earned more than the average salary in 2018
+Salary %>%
+  filter(AVG > 4520000) %>% 
+  filter(POS != "1") %>%
+  summarise(count = n())
+
+Salary %>%
+  group_by(Tm) %>%
+  filter(AVG > 4520000) %>%
+  filter(POS != "1") %>% # Pitchers have a number position = 1 / POS does not work 
+  summarise(count = n( )) %>%
+  arrange(desc(count))
+
+```
+## Joining two tables = 'Player Standard Batting' & 'Salary'
+```{r}
+MLB <-
+  PSB %>%
+  inner_join(Salary) %>%
+  select(Name)
+
+View(MLB)
+
+
+Salary %>%
+  select(Name, Tm, POS, `AVG ANNUAL`) %>%
 ```
 
