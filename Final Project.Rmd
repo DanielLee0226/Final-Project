@@ -4,9 +4,9 @@ output: html_notebook
 Name: 'Daniel Lee'
 ---
 
-### IDEA
+### IDEA & GOAL
 
-The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related by joining two different tables which are 'Player Standard Batting' and 'Salary'. These two tables will be analyzed separately and joined together to look for the relationship between the variables. 
+The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related by joining two different tables which are 'Player Standard Batting' and 'Salary'. These two tables will be analyzed separately and joined together to look for the relationship between the variables by plotting graphs. 
 
 ### Setup
 ```{r}
@@ -22,21 +22,23 @@ library(rvest)
 library(readxl)
 Player_Standard_Batting <- read_excel("~/Desktop/Penn State/Courses/STAT 184/Final Project/Player Standard Batting.xlsx")
 View(Player_Standard_Batting)
+
 library(readxl)
 Salary <- read_excel("~/Desktop/Penn State/Courses/STAT 184/Final Project/Salary.xlsx")
-View(Salary)
+glimpse(Salary)
 ```
 
-### Data Wrangling using 'Player Standard Batting' table
+### Data Wrangling for 'Player Standard Batting' table
 ```{r}
 # Creating a new table (PSB) with variables that are necessary and significant & erasing rows that contain NAs.
 PSB <- 
   Player_Standard_Batting %>%
+  filter(POS != "1") %>% 
   select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) 
 
-str(Player_Standard_Batting)
+View(PSB)
 
-# Average Hits and Batting aveage
+# Average Hits and Batting average
 PSB %>%
   summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded 
 
@@ -48,7 +50,6 @@ PSB %>%
 
 ```{r}
 # Counting the number of players who are 27 years old in each team & Removing pitchers and duplicated names from the data table occured due to trade during season.
-
 PSB %>%
   group_by(Tm) %>%
   filter(Age >= 27) %>%
@@ -56,10 +57,21 @@ PSB %>%
   summarise(count = n( )) %>%
   arrange(desc(count))
 
-```
+# Plotting a graph: Age vs BA into two groups (AL & NL)
+PSB %>%
+  ggplot(aes(x = Age, y = BA, color = Lg)) +
+  stat_smooth() +
+  ylab("Batting Average (BA)") + xlab("Age (years)")
 
-### Data Wrangling using 'Salary' table
+```
+The graph shows that 
+
+### Data Wrangling for 'Salary' table
 ```{r}
+# Finding the average salary in 2018 
+Salary %>%
+  summarise(AVG = mean(AVG, na.rm = TRUE))
+
 # Number of players who earned more than the average salary ($4,520,000) for each team in 2018
 Salary %>%
   group_by(Tm) %>%
@@ -68,9 +80,20 @@ Salary %>%
   summarise(count = n( )) %>%
   arrange(desc(count))
 
-# 
+
+# Adding new column indicates whether players are in AL or NL
 
 ```
+
+```{r}
+# Plotting a graph for Boston Red Sox (2018 World Champion)
+Salary %>%
+  ggplot(aes(x = AVG)) +
+  geom_density(color = "black", fill = "gray", alpha = 0.75) +
+  xlab("SALARY") +
+  xlim(545000,30714286)
+```
+
 
 ### Joining two tables = 'Player Standard Batting' & 'Salary'
 ```{r}
@@ -81,9 +104,10 @@ MLB <-
 
 View(MLB)
 
-
-Salary %>%
-  select(Name, Tm, POS, `AVG ANNUAL`) %>%
 ```
 
+### Plotting a graph to find the relationship between age vs salary & BA vs salary
+```{r}
+
+```
 
