@@ -176,48 +176,54 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
+<div id="idea" class="section level3">
+<h3>IDEA</h3>
+<p>The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related by joining two different tables which are ‘Player Standard Batting’ and ‘Salary’. These two tables will be analyzed separately and joined together to look for the relationship between the variables.</p>
+</div>
 <div id="setup" class="section level3">
 <h3>Setup</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShtb3NhaWMpXG5saWJyYXJ5KHJ2ZXN0KVxubGlicmFyeShyZWFkeGwpXG5QbGF5ZXJfU3RhbmRhcmRfQmF0dGluZyA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3hcIilcblZpZXcoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5saWJyYXJ5KHJlYWR4bClcblNhbGFyeSA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1NhbGFyeS54bHN4XCIpXG5WaWV3KFNhbGFyeSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShtb3NhaWMpXG5saWJyYXJ5KHJ2ZXN0KVxubGlicmFyeShyZWFkeGwpXG5QbGF5ZXJfU3RhbmRhcmRfQmF0dGluZyA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1Blbm4gU3RhdGUvQ291cnNlcy9TVEFUIDE4NC9GaW5hbCBQcm9qZWN0L1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3hcIilcblZpZXcoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5saWJyYXJ5KHJlYWR4bClcblNhbGFyeSA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1Blbm4gU3RhdGUvQ291cnNlcy9TVEFUIDE4NC9GaW5hbCBQcm9qZWN0L1NhbGFyeS54bHN4XCIpXG5WaWV3KFNhbGFyeSlcbmBgYCJ9 -->
 <pre class="r"><code>rm(list = ls())
 library(lubridate)
 library(tidyverse)
 library(mosaic)
 library(rvest)
 library(readxl)
-Player_Standard_Batting &lt;- read_excel(&quot;~/Desktop/Player Standard Batting.xlsx&quot;)
+Player_Standard_Batting &lt;- read_excel(&quot;~/Desktop/Penn State/Courses/STAT 184/Final Project/Player Standard Batting.xlsx&quot;)
 View(Player_Standard_Batting)
 library(readxl)
-Salary &lt;- read_excel(&quot;~/Desktop/Salary.xlsx&quot;)
+Salary &lt;- read_excel(&quot;~/Desktop/Penn State/Courses/STAT 184/Final Project/Salary.xlsx&quot;)
 View(Salary)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="url-xpath-not-working-need-to-be-fixed" class="section level3">
-<h3>URL &amp; xpath (Not working &amp; Need to be fixed)</h3>
+<div id="loading-datasets" class="section level3">
+<h3>Loading datasets</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkb3dubG9hZC5maWxlKHVybCA9IFwiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sXCIsIGRlc3RmaWxlID0gXCJCYXR0aW5nXCIpXG4jIFxuIyBYUEFUSCA8LSAnLy8qW0BpZD1cInBsYXllcnNfc3RhbmRhcmRfYmF0dGluZ1wiXSdcbiMgXG4jIERhdGFUYWJsZSA8LSByZWFkUkRTKFwiQmF0dGluZ1wiKVxuIyBcbiMgd2ViX3BhZ2UgPC0gXCJodHRwczovL3d3dy5iYXNlYmFsbC1yZWZlcmVuY2UuY29tL2xlYWd1ZXMvTUxCLzIwMTgtc3RhbmRhcmQtcGl0Y2hpbmcuc2h0bWxcIiwgZGVzdGZpbGUgPSBcIkJhdHRpbmdcIlxuYGBgIn0= -->
-<pre class="r"><code># download.file(url = &quot;https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml&quot;, destfile = &quot;Batting&quot;)
-# 
-# XPATH &lt;- '//*[@id=&quot;players_standard_batting&quot;]'
-# 
-# DataTable &lt;- readRDS(&quot;Batting&quot;)
-# 
-# web_page &lt;- &quot;https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml&quot;, destfile = &quot;Batting&quot;</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkeGwpXG5QbGF5ZXJfU3RhbmRhcmRfQmF0dGluZyA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1Blbm4gU3RhdGUvQ291cnNlcy9TVEFUIDE4NC9GaW5hbCBQcm9qZWN0L1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3hcIilcblZpZXcoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5saWJyYXJ5KHJlYWR4bClcblNhbGFyeSA8LSByZWFkX2V4Y2VsKFwifi9EZXNrdG9wL1Blbm4gU3RhdGUvQ291cnNlcy9TVEFUIDE4NC9GaW5hbCBQcm9qZWN0L1NhbGFyeS54bHN4XCIpXG5WaWV3KFNhbGFyeSlcbmBgYCJ9 -->
+<pre class="r"><code>library(readxl)
+Player_Standard_Batting &lt;- read_excel(&quot;~/Desktop/Penn State/Courses/STAT 184/Final Project/Player Standard Batting.xlsx&quot;)
+View(Player_Standard_Batting)
+library(readxl)
+Salary &lt;- read_excel(&quot;~/Desktop/Penn State/Courses/STAT 184/Final Project/Salary.xlsx&quot;)
+View(Salary)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="data-wrangling-using-player-standard-batting-table" class="section level3">
+<h3>Data Wrangling using ‘Player Standard Batting’ table</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhdGluZyBhIG5ldyB0YWJsZSAoTUxCKSB3aXRoIHZhcmlhYmxlcyB0aGF0IGFyZSBuZWNlc3NhcnkgYW5kIHNpZ25pZmljYW50ICYgZXJhc2luZyByb3dzIHRoYXQgY29udGFpbiBOQXMuXG5QU0IgPC0gXG4gIFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nICU+JVxuICBzZWxlY3QoTmFtZSwgVG0sIExnLCBBZ2UsIFIsIEgsIEhSLCBSQkksIEFCLCBCQSwgUE9TKSAjIFBPUyBzaG91bGQgYmUgaW5jbHVkZWQgYnV0IGNvdWxkIG5vdCBiZSBmb3VuZC4uXG5zdHIoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpXG5gYGAifQ== -->
-<pre class="r"><code># Creating a new table (MLB) with variables that are necessary and significant &amp; erasing rows that contain NAs.
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDcmVhdGluZyBhIG5ldyB0YWJsZSAoUFNCKSB3aXRoIHZhcmlhYmxlcyB0aGF0IGFyZSBuZWNlc3NhcnkgYW5kIHNpZ25pZmljYW50ICYgZXJhc2luZyByb3dzIHRoYXQgY29udGFpbiBOQXMuXG5QU0IgPC0gXG4gIFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nICU+JVxuICBzZWxlY3QoTmFtZSwgVG0sIExnLCBBZ2UsIFIsIEgsIEhSLCBSQkksIEFCLCBCQSwgUE9TKSBcbnN0cihQbGF5ZXJfU3RhbmRhcmRfQmF0dGluZylcbmBgYCJ9 -->
+<pre class="r"><code># Creating a new table (PSB) with variables that are necessary and significant &amp; erasing rows that contain NAs.
 PSB &lt;- 
   Player_Standard_Batting %&gt;%
-  select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) # POS should be included but could not be found..
+  select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) 
 str(Player_Standard_Batting)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ2xhc3NlcyDigJh0YmxfZGbigJksIOKAmHRibOKAmSBhbmQgJ2RhdGEuZnJhbWUnOlx0MTEzMyBvYnMuIG9mICAyOSB2YXJpYWJsZXM6XG4gJCBOYW1lOiBjaHIgIFwiSm9zZcKgQWJyZXVcIiBcIlJvbmFsZMKgQWN1bmFcIiBcIkphc29uwqBBZGFtXCIgXCJXaWxsecKgQWRhbWVzXCIgLi4uXG4gJCBBZ2UgOiBudW0gIDMxIDIwIDI2IDIyIDI3IDIzIDI4IDMzIDI4IDI4IC4uLlxuICQgVG0gIDogY2hyICBcIkNIV1wiIFwiQVRMXCIgXCJLQ1JcIiBcIlRCUlwiIC4uLlxuICQgTGcgIDogY2hyICBcIkFMXCIgXCJOTFwiIFwiQUxcIiBcIkFMXCIgLi4uXG4gJCBHICAgOiBudW0gIDEyOCAxMTEgMSA4NSAyIDEgMjYgNTkgMTE0IDE0OSAuLi5cbiAkIFBBICA6IG51bSAgNTUzIDQ4NyAwIDMyMyAwIDAgMjkgMTg1IDM2NiA1NjYgLi4uXG4gJCBBQiAgOiBudW0gIDQ5OSA0MzMgMCAyODggMCAwIDI1IDE3NiAzMzUgNDkyIC4uLlxuICQgUiAgIDogbnVtICA2OCA3OCAwIDQzIDAgMCAxMCAxOSA0MiA4MCAuLi5cbiAkIEggICA6IG51bSAgMTMyIDEyNyAwIDgwIDAgMCA2IDQ3IDg0IDEzNSAuLi5cbiAkIDJCICA6IG51bSAgMzYgMjYgMCA3IDAgMCAxIDggMjMgMjUgLi4uXG4gJCAzQiAgOiBudW0gIDEgNCAwIDAgMCAwIDAgMiAxIDAgLi4uXG4gJCBIUiAgOiBudW0gIDIyIDI2IDAgMTAgMCAwIDIgMyA2IDM1IC4uLlxuICQgUkJJIDogbnVtICA3OCA2NCAwIDM0IDAgMCA2IDIxIDM5IDEwOCAuLi5cbiAkIFNCICA6IG51bSAgMiAxNiAwIDYgMCAwIDEgMSA1IDAgLi4uXG4gJCBDUyAgOiBudW0gIDAgNSAwIDUgMCAwIDAgMCAxIDAgLi4uXG4gJCBCQiAgOiBudW0gIDM3IDQ1IDAgMzEgMCAwIDQgNiAyNCA1OCAuLi5cbiAkIFNPICA6IG51bSAgMTA5IDEyMyAwIDk1IDAgMCA4IDQ1IDgyIDE0MyAuLi5cbiAkIEJBICA6IG51bSAgMC4yNjUgMC4yOTMgTkEgMC4yNzggTkEgTkEgMC4yNCAwLjI2NyAwLjI1MSAwLjI3NCAuLi5cbiAkIE9CUCA6IG51bSAgMC4zMjUgMC4zNjYgTkEgMC4zNDggTkEgTkEgMC4zNDUgMC4yOSAwLjMwMSAwLjM1MiAuLi5cbiAkIFNMRyA6IG51bSAgMC40NzMgMC41NTIgTkEgMC40MDYgTkEgTkEgMC41MiAwLjM4NiAwLjM3OSAwLjUzOSAuLi5cbiAkIE9QUyA6IG51bSAgMC43OTggMC45MTcgTkEgMC43NTQgTkEgTkEgMC44NjUgMC42NzYgMC42OCAwLjg5IC4uLlxuICQgT1BTKzogbnVtICAxMTggMTQ0IE5BIDEwOSBOQSBOQSAxMzAgODMgODQgMTM1IC4uLlxuICQgVEIgIDogbnVtICAyMzYgMjM5IDAgMTE3IDAgMCAxMyA2OCAxMjcgMjY1IC4uLlxuICQgR0RQIDogbnVtICAxNCA0IDAgNiAwIDAgMSAyIDQgMTkgLi4uXG4gJCBIQlAgOiBudW0gIDExIDYgMCAxIDAgMCAwIDAgMSA2IC4uLlxuICQgU0ggIDogbnVtICAwIDAgMCAxIDAgMCAwIDIgNCAwIC4uLlxuICQgU0YgIDogbnVtICA2IDMgMCAyIDAgMCAwIDEgMiAxMCAuLi5cbiAkIElCQiA6IG51bSAgNyAyIDAgMyAwIDAgMCAwIDIgMyAuLi5cbiAkIFBPUyA6IGNociAgXCIqM0RcIiBcIjc4LzlEXCIgXCIxXCIgXCI2NFwiIC4uLlxuIn0= -->
@@ -257,7 +263,7 @@ str(Player_Standard_Batting)</code></pre>
 PSB %&gt;%
   summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBPdzdDTUF4MVV3cWlFaCtKaFV2UUFiRXg4QkVTekV5c29SU29LQWxxZzBCTVNIQVJUc010dUFJM0FKeTBsbEE4T1BhTDM3UGZmTExvK2dzZkFCaTRuZ1BNeGJMRU1EbFFncXArendCdXl3d0ExRFV3ZVBiYjh2VytVRDhjeHZmSDh6YTFpSjdnK3lqRG9tbklPY2pHSTlLZFdmUFZWSjRDNHRUMDdCWFRGOE1XRGhPZWtUQ0Ivb29ySHF4VDVHUDNzU2dWZVZDeEZFaGkyb3Bua1ozVUFocEhvUzlaZGNMdFVldzZQYjNBZk9kUksycm5yMmI1U3ZZdHBMeENxaHlKVFN3aXVqM2h5eWdwbWpvNk5vYURReG9MUlU0UXpRSWxGYWM1UDVRSkljWWJmSDUzKytLbnVBRUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBTd3JDTUJDZHBsYXg0QWZjZUFrTHVuWGhCMEhYcnR6R1dyVllFMmtqaWl0QkwrSnB2SVZYOEFicUpPMkFaQmFUbVpkNWIrYk5KNHVldi9BQmdJSHJPY0JjTEVzTWt3TWxxT3IzRE9DMnpBQkFYUU9EWjc4dFgrOEw5Y05oZkg4OGIxT0w2QW0ranpJc21vYWNnMnc4SXQyWk5WOU41U2tnVGszUFhqRjlNV3poTU9FWkNSUG9yN2ppd1RwRlBuWWZpMUtSQnhWTGdTU21yWGdXMlVrdG9IRVUrcEpWSjl3ZXhhN1QxUXZNZHg2MW9uYithcGF2Wk45Q3lpdWt5cEhZeENLaTJ4TytqSktpcWFOall6ZzRwTEZRNUFUUkxGQlNjWnJ6UTVrUVlyekI1d2VjVjdXU3VBRUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["BA"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["H"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.181491","2":"32.82436"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -270,7 +276,7 @@ PSB %&gt;%
   filter(AB &gt;= 300) %&gt;%        # Filtering out players who were not at bat less than 300 games
   summarise(BA = max(BA, na.rm = TRUE), H = max(H, na.rm = TRUE))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBPdzdDTUF4MVV3cWlFaCtKalptVklpRjJQbUpnWm1JTnBVQkZTVkFiQkNNMzRTWWNnNDJyQUU0YVN4QVBqdjNpOSt5M25LK0c0U29FQUFaKzRBSHpzYXd3VEI1VW9LN2ZLNERmTVFNQVRRMk1uNzNYb0h0L1VEL1pnNDAvWWlENE1TbXdhQnR5Q2JMWmxIUVh6bnc5bDVlSU9BMDllOFAwd1hDRjQ0d1hKRXhndU9HS1I5c2MrZGk5SFVwTm5sUXFCWktZdGhJNFpDOTNnTlpaNkVzMi9YaC9Gb2YrU0M4dzMyVTBiTzM5MUt4Y3lUNVdLckJTMVVUc1VwSFE3UmxmSjVsdG11allHSTVPZVNvVU9VRzBpSlJVbk9iQ1dHYUVHRy93L2dKckk0VUt1QUVBQUE9PSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBPdzdDTUF4MVV3cWlFaCtKalptVklyZ0FIekV3TTdHR1VxQ2lKS2dOZ3BHYmNCT093Y1pWQUNlTkpZZ0h4Mzd4ZS9aYnpsZWpjQlVDQUFNLzhJRDVXRllZSmc4cVVOZnZGY0R2bUFHQXBnYkd6OTVyMEwwL3FKL3N3Y1lmTVJEOG1CUll0QTI1Qk5sc1Nyb0xaNzZleTB0RW5JYWV2V0g2WUxqQ2NjWUxFaVl3M0hERm8yMk9mT3plRHFVbVR5cVZBa2xNV3drY3NwYzdRT3NzOUNXYmZydy9pME4vcUJlWTd6SWF0dlorYWxhdVpCOHJGVmlwYWlKMnFVam85b3l2azh3MlRYUnNERWVuUEJXS25DQmFSRW9xVG5OaExETkNqRGQ0ZndHQWo5SS91QUVBQUE9PSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["BA"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["H"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.346","2":"192"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -290,7 +296,7 @@ PSB %&gt;%
   summarise(count = n( )) %&gt;%
   arrange(desc(count))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBMjFTVzI2Q1FCUzlERklycmRySEFseUJmRFRwQWxCb0pUNHdRcU4rVXFTdEtRNEdNZTFudDlxTlNBZWN1VU5JU2M3TW1Udm5Qb2VGdFhyUVZ6b0FFRkExQllqS2FJT3dSWUVHdElyOUcwQzlMd1VBTnd3OWZxRjZUODlJYlZOUWMrRUlPakhST25VbUtQQ1JEbHhQQ2xBN1cwOEZkYzJ4b0V0dmhtNG1SaGlPaGtnbnRreHNZV1V5bSs4dVVPdWkxYlBtS0JoSWdZUFpSdTZMb0hQSEY5U3lmVm5EVW5ZeGsxMnNCUjBQTWU1OGhOUHg3WldzekdkYnV4d3V3QjNETFIrMlFKZWg4dy9hRlZ4WGNGV0JYa0dSN3JLQ0pzTUZoMXA3ZVkwR3UrakFDeURjU1B5ZHVBNlRJODFxUHEwMCtUS0VYMUVVK1dGTG51ZS85ZUJoSEJ4RWNHSFVOMEVXR0c4cDgyZW5VODJsbWV5emJVS1pFeW4rUjYzbXJLUTFRL2RJaTBvMi9mRGpTRC83ajN3RUNweS9OdWU5Q2lmbmxDVG5vVFFlNmlLaTcxc2FpZHJqNERXSythSERPaTRiTnZicGxzMkRkOEtzQnlOTHNrRG85RENKaGFYc0RVNS9WdmMwUjMwREFBQT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBMjFTVzNLQ01CUzlCTkZLYSsxakFhNUFQdHdCQ3EyTUR4eWhvMzVTcEsxVERBN2l0Si9kYWpjaURaaWJNRXlaT2NuSnpiblBzTFRXQTMydEF3QUJWVk9BcUl3MkNGc1VhRUM3Mkw4QjFNZFNBSERIME9NWHF2ZjBMS2h0SWpXWER0S3BLYXd6WnlvRXZxQkQxNU1Db1oxdlpraGRjNEowNWMyRm15a2lqTVlqUWFlMlRHeUp5bVEyMzEwS3JTdXNuclVRZ3FFVU9DTGIySDFCdW5COHBKYnR5eHBXc291NTdHS0RkRElTY1Jkak1SM2ZYc3ZLZkxaMXl1RUNQRERjODJFanVneTMvNkJUd1UwRjF4WG9GUlRwcmlwb01UUTUxTnJMYXpUWVIwZGVBT0ZHNHUveE9reE9OS3Y1dE5Qa3kwQy9vaWp5dzVZOHozL3J3Y000T0dKd05PcmJJQXVNdDVUNXM5TzU1dEpLRHRrdW9jeUpGUCtqVm5OVzBwcWhlNkpGSmR0KytIR2luLzBCSDRFQ2w2L0RlYS9DeVNVbHlYa29qWWRxUnZSOVJ5T3NQUTVlbzVnZmJsbkhaY1BHSWQyeGVmQk9tUFZvWkVrV29FNFBreGd0Wlc5dy9nUDVIOSswZlFNQUFBPT0ifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Tm"],"name":[1],"type":["chr"],"align":["left"]},{"label":["count"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"SFG","2":"18"},{"1":"SEA","2":"17"},{"1":"ARI","2":"16"},{"1":"LAA","2":"16"},{"1":"MIL","2":"16"},{"1":"ATL","2":"15"},{"1":"BOS","2":"14"},{"1":"MIA","2":"14"},{"1":"NYM","2":"14"},{"1":"OAK","2":"14"},{"1":"WSN","2":"14"},{"1":"BAL","2":"13"},{"1":"CHC","2":"13"},{"1":"CLE","2":"13"},{"1":"LAD","2":"12"},{"1":"STL","2":"12"},{"1":"TOR","2":"12"},{"1":"COL","2":"11"},{"1":"SDP","2":"11"},{"1":"TBR","2":"11"},{"1":"CIN","2":"10"},{"1":"HOU","2":"10"},{"1":"PIT","2":"10"},{"1":"DET","2":"9"},{"1":"CHW","2":"8"},{"1":"MIN","2":"8"},{"1":"NYY","2":"8"},{"1":"KCR","2":"7"},{"1":"PHI","2":"6"},{"1":"TEX","2":"6"},{"1":"TOT","2":"3"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[31]},"pages":{}}}
@@ -300,33 +306,20 @@ PSB %&gt;%
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="summarizing-data-from-table-salary" class="section level2">
-<h2>Summarizing data from table ‘Salary’</h2>
+<div id="data-wrangling-using-salary-table" class="section level3">
+<h3>Data Wrangling using ‘Salary’ table</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOdW1iZXIgb2YgcGxheWVycyB3aG8gZWFybmVkIG1vcmUgdGhhbiB0aGUgYXZlcmFnZSBzYWxhcnkgaW4gMjAxOFxuU2FsYXJ5ICU+JVxuICBmaWx0ZXIoQVZHID4gNDUyMDAwMCkgJT4lIFxuICBmaWx0ZXIoUE9TICE9IFwiMVwiKSAlPiVcbiAgc3VtbWFyaXNlKGNvdW50ID0gbigpKVxuYGBgIn0= -->
-<pre class="r"><code># Number of players who earned more than the average salary in 2018
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOdW1iZXIgb2YgcGxheWVycyB3aG8gZWFybmVkIG1vcmUgdGhhbiB0aGUgYXZlcmFnZSBzYWxhcnkgKCQ0LDUyMCwwMDApIGluIDIwMThcblNhbGFyeSAlPiVcbiAgZ3JvdXBfYnkoVG0pICU+JVxuICBmaWx0ZXIoQVZHID4gNDUyMDAwMCkgJT4lXG4gIGZpbHRlcihQT1MgIT0gXCIxXCIpICU+JSAjIFBpdGNoZXJzIGhhdmUgYSBudW1iZXIgcG9zaXRpb24gPSAxIC8gUE9TIGRvZXMgbm90IHdvcmsgXG4gIHN1bW1hcmlzZShjb3VudCA9IG4oICkpICU+JVxuICBhcnJhbmdlKGRlc2MoY291bnQpKVxuYGBgIn0= -->
+<pre class="r"><code># Number of players who earned more than the average salary ($4,520,000) in 2018
 Salary %&gt;%
-  filter(AVG &gt; 4520000) %&gt;% 
-  filter(POS != &quot;1&quot;) %&gt;%
-  summarise(count = n())</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MSwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFTdzdDSUJDZDBsWlRFaitKNXlnTE4xN0FFN2pxRm1uVlJvU0cwdWpTMjNtcjFxR0JSR0V4bjVkNWIrWnhPbFo3V2xFQUlKRG1DWkFVeTR4Z1NDQ0R3dVVYUUxxYkFZQ1Z6NTlvS0ZmODBmUlliSDlCb1FkbG84bkM2Q2NMMDA2T3ZERk0rR0pKSVhrZlM5S2FXODR1QnZuWWpSRmxxVHZiYW9VazRnN09JM0ppSW1BektIZEpYWXJib083bHdTM3dCdUhIYlBKZnU1Vms4bEs1bDFvMDZ0cXFKdHd1K2JtUnZsbWo0OWt3NjB5TC8rR2RJTm96cXkwUGMxUm9HWkRaRzR4ZlNua3VhSjRCQUFBPSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["count"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"199"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuU2FsYXJ5ICU+JVxuICBncm91cF9ieShUbSkgJT4lXG4gIGZpbHRlcihBVkcgPiA0NTIwMDAwKSAlPiVcbiAgZmlsdGVyKFBPUyAhPSBcIjFcIikgJT4lICMgUGl0Y2hlcnMgaGF2ZSBhIG51bWJlciBwb3NpdGlvbiA9IDEgLyBQT1MgZG9lcyBub3Qgd29yayBcbiAgc3VtbWFyaXNlKGNvdW50ID0gbiggKSkgJT4lXG4gIGFycmFuZ2UoZGVzYyhjb3VudCkpXG5gYGAifQ== -->
-<pre class="r"><code>Salary %&gt;%
   group_by(Tm) %&gt;%
   filter(AVG &gt; 4520000) %&gt;%
   filter(POS != &quot;1&quot;) %&gt;% # Pitchers have a number position = 1 / POS does not work 
   summarise(count = n( )) %&gt;%
   arrange(desc(count))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBM1dSejA2RFFCREdod1ZhaTZtYTlBSDZCT1hneGZNV1VKcitvUUZNMnlOUzFFWUtEYVhSbzYvcWl4UVgzRmtJcVNRZi9IYVliM1ptMXpYWDk5cGFBd0FDc2lvQmtSa3FoTDBrVUtCWGZyOEE1RUdWQUhESE5PUS9aTnQ1Umx4czVvaUdNME1jT3g3aWpGTEU1Y1JIWEhtMnlLWENac3dzUk04U051L3hTYUJmNTlvRzRueXlxTnZaSURwMGl1ZzdidDJPS1NyVXRxVTlFVnVZUzVHd0VsT1lsbWg5YXJqMXhyUkcwWmx2clJHcEsrcFMwYnJpajExUmdqSDc5S3ZUQmJqbUtxK2wxOUxWQlhVdnFNT2tOcVQ4STdraDBycDZOUW4yMFpGZk8rRkI0dS94ZDVpZWtyemw2V1hwcDQ2K2NpRHl6VjVGVWZ5MGk0ZHhjTVRpR05TMlFSN29yeG56czlXNVplbW1oM3lYSnN4RUJueXNwbG5LV29IYlUxSjJzaDJGNzZma1kvVEFqMVNDdjZmUGVkaGdmZ1NrNEtWVVhxb1RKVys3Sk1MZTQrQWxpdm5paGsxY0Rhd2ZzaDA3RHo0Sml4NzFQTTBEek5QQ05NWklOUnVjZndIQWJUWXJmZ01BQUE9PSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MzF9LCJyZGYiOiJINHNJQUFBQUFBQUFBM1dSYlU2RFFCQ0dod1ZhaTZtYTlBQTlRVW4wQmx0QWFmcEJBNWkyUDVHaU5sSm9LSTMrOUtwZXBMamd6a0pJSlhuaDJXSGUyWmxkMTF3L2FHc05BQWpJcWdSRVpxZ1E5cEpBZ1Y3NS9RS1FCMVVDd0IzVGtQK1FiZWNaY2JHWkl4ck9ESEhzZUlnelNoR1hFeDl4NWRraWx3cWJNYk1RUFV2WXZNY25nWDZkYXh1STg4bWlibWVENk5BcG91KzRkVHVtcUZEYmx2WkViR0V1UmNKS1RHRmFvdldwNGRZYjB4cEZaNzYxUnFTdXFFdEY2NG8vZGtVSnh1elRyMDRYNEpxcnZKWmVTMWNYMUwyZ0RwUGFrUEtQNUlaSTYrclZKTmhIUjM3dGhBZUp2OGZmWVhwSzhwYW5sNldmT3ZyS2djZzNleFZGOGRNdUhzYkJFWXRqVU5zR2VhQy9ac3pQVnVlV3Bac2U4bDJhTUJNWjhMR2FaaWxyQlc1UFNkbkpkaFMrbjVLUDBUMC9VZ24rbmo3bllZUDVFWkNDbDFKNXFVNlV2TzJTQ0h1UGc1Y281b3NiTm5FMXNIN0lkdXc4K0NRc2V0VHpOQTh3VHd2VEdDUFZiSEQrQlUybmc3dCtBd0FBIn0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Tm"],"name":[1],"type":["chr"],"align":["left"]},{"label":["count"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"HOU","2":"11"},{"1":"NYM","2":"11"},{"1":"COL","2":"10"},{"1":"BOS","2":"9"},{"1":"LAA","2":"9"},{"1":"PIT","2":"9"},{"1":"WSH","2":"9"},{"1":"BAL","2":"8"},{"1":"CLE","2":"8"},{"1":"SEA","2":"8"},{"1":"SFG","2":"8"},{"1":"STL","2":"8"},{"1":"CHC","2":"7"},{"1":"MIN","2":"7"},{"1":"NYY","2":"7"},{"1":"OAK","2":"7"},{"1":"TOR","2":"7"},{"1":"LAD","2":"6"},{"1":"CIN","2":"5"},{"1":"PHI","2":"5"},{"1":"SDP","2":"5"},{"1":"CWS","2":"4"},{"1":"DET","2":"4"},{"1":"KCR","2":"4"},{"1":"MIA","2":"4"},{"1":"MIL","2":"4"},{"1":"TEX","2":"4"},{"1":"ARI","2":"3"},{"1":"ATL","2":"3"},{"1":"TBRR","2":"3"},{"1":"TBR","2":"2"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[31]},"pages":{}}}
@@ -336,8 +329,8 @@ Salary %&gt;%
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="joining-two-tables-player-standard-batting-salary" class="section level2">
-<h2>Joining two tables = ‘Player Standard Batting’ &amp; ‘Salary’</h2>
+<div id="joining-two-tables-player-standard-batting-salary" class="section level3">
+<h3>Joining two tables = ‘Player Standard Batting’ &amp; ‘Salary’</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTUxCIDwtXG4gIFBTQiAlPiVcbiAgaW5uZXJfam9pbihTYWxhcnkpICU+JVxuICBzZWxlY3QoTmFtZSlcbmBgYCJ9 -->
@@ -363,7 +356,7 @@ Salary %&gt;%
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIKb3V0cHV0OiBodG1sX25vdGVib29rCk5hbWU6IERhbmllbCBMZWUKLS0tCgojIyMgU2V0dXAKYGBge3J9CnJtKGxpc3QgPSBscygpKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KHJ2ZXN0KQpsaWJyYXJ5KHJlYWR4bCkKUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgPC0gcmVhZF9leGNlbCgifi9EZXNrdG9wL1BsYXllciBTdGFuZGFyZCBCYXR0aW5nLnhsc3giKQpWaWV3KFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nKQpsaWJyYXJ5KHJlYWR4bCkKU2FsYXJ5IDwtIHJlYWRfZXhjZWwoIn4vRGVza3RvcC9TYWxhcnkueGxzeCIpClZpZXcoU2FsYXJ5KQoKYGBgCgojIyMgVVJMICYgeHBhdGggKE5vdCB3b3JraW5nICYgTmVlZCB0byBiZSBmaXhlZCkKYGBge3J9CiMgZG93bmxvYWQuZmlsZSh1cmwgPSAiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sIiwgZGVzdGZpbGUgPSAiQmF0dGluZyIpCiMgCiMgWFBBVEggPC0gJy8vKltAaWQ9InBsYXllcnNfc3RhbmRhcmRfYmF0dGluZyJdJwojIAojIERhdGFUYWJsZSA8LSByZWFkUkRTKCJCYXR0aW5nIikKIyAKIyB3ZWJfcGFnZSA8LSAiaHR0cHM6Ly93d3cuYmFzZWJhbGwtcmVmZXJlbmNlLmNvbS9sZWFndWVzL01MQi8yMDE4LXN0YW5kYXJkLXBpdGNoaW5nLnNodG1sIiwgZGVzdGZpbGUgPSAiQmF0dGluZyIKCmBgYAoKYGBge3J9CiMgQ3JlYXRpbmcgYSBuZXcgdGFibGUgKE1MQikgd2l0aCB2YXJpYWJsZXMgdGhhdCBhcmUgbmVjZXNzYXJ5IGFuZCBzaWduaWZpY2FudCAmIGVyYXNpbmcgcm93cyB0aGF0IGNvbnRhaW4gTkFzLgpQU0IgPC0gCiAgUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgJT4lCiAgc2VsZWN0KE5hbWUsIFRtLCBMZywgQWdlLCBSLCBILCBIUiwgUkJJLCBBQiwgQkEsIFBPUykgIyBQT1Mgc2hvdWxkIGJlIGluY2x1ZGVkIGJ1dCBjb3VsZCBub3QgYmUgZm91bmQuLgoKc3RyKFBsYXllcl9TdGFuZGFyZF9CYXR0aW5nKQoKIyBBdmVyYWdlIEhpdHMgYW5kIEJhdHRpbmcgYXZlYWdlClBTQiAlPiUKICBzdW1tYXJpc2UoQkEgPSBtZWFuKEJBLCBuYS5ybSA9IFRSVUUpICwgSCA9IG1lYW4oSCwgbmEucm0gPSBUUlVFKSkgIyBQaXRjaGVycyBCYXR0aW5nIEF2ZXJhZ2UgZXhjbHVkZWQgCgojIE1vc3QgSGl0cyBhbmQgQmF0dGluZyBhdmVhZ2UKUFNCICU+JQogIGZpbHRlcihBQiA+PSAzMDApICU+JSAgICAgICAgIyBGaWx0ZXJpbmcgb3V0IHBsYXllcnMgd2hvIHdlcmUgbm90IGF0IGJhdCBsZXNzIHRoYW4gMzAwIGdhbWVzCiAgc3VtbWFyaXNlKEJBID0gbWF4KEJBLCBuYS5ybSA9IFRSVUUpLCBIID0gbWF4KEgsIG5hLnJtID0gVFJVRSkpCmBgYAoKYGBge3J9CiMgQ291bnRpbmcgdGhlIG51bWJlciBvZiBwbGF5ZXJzIHdobyBhcmUgMjcgeWVhcnMgb2xkIGluIGVhY2ggdGVhbSAmIFJlbW92aW5nIHBpdGNoZXJzIGFuZCBkdXBsaWNhdGVkIG5hbWVzIGZyb20gdGhlIGRhdGEgdGFibGUgb2NjdXJlZCBkdWUgdG8gdHJhZGUgZHVyaW5nIHNlYXNvbi4KClBTQiAlPiUKICBncm91cF9ieShUbSkgJT4lCiAgZmlsdGVyKEFnZSA+PSAyNykgJT4lCiAgZmlsdGVyKFBPUyAhPSAiMSIpICU+JSAjIFBpdGNoZXJzIGhhdmUgYSBudW1iZXIgcG9zaXRpb24gPSAxIC8gUE9TIGRvZXMgbm90IHdvcmsgCiAgc3VtbWFyaXNlKGNvdW50ID0gbiggKSkgJT4lCiAgYXJyYW5nZShkZXNjKGNvdW50KSkKCmBgYAoKIyMgU3VtbWFyaXppbmcgZGF0YSBmcm9tIHRhYmxlICdTYWxhcnknCmBgYHtyfQojIE51bWJlciBvZiBwbGF5ZXJzIHdobyBlYXJuZWQgbW9yZSB0aGFuIHRoZSBhdmVyYWdlIHNhbGFyeSBpbiAyMDE4ClNhbGFyeSAlPiUKICBmaWx0ZXIoQVZHID4gNDUyMDAwMCkgJT4lIAogIGZpbHRlcihQT1MgIT0gIjEiKSAlPiUKICBzdW1tYXJpc2UoY291bnQgPSBuKCkpCgpTYWxhcnkgJT4lCiAgZ3JvdXBfYnkoVG0pICU+JQogIGZpbHRlcihBVkcgPiA0NTIwMDAwKSAlPiUKICBmaWx0ZXIoUE9TICE9ICIxIikgJT4lICMgUGl0Y2hlcnMgaGF2ZSBhIG51bWJlciBwb3NpdGlvbiA9IDEgLyBQT1MgZG9lcyBub3Qgd29yayAKICBzdW1tYXJpc2UoY291bnQgPSBuKCApKSAlPiUKICBhcnJhbmdlKGRlc2MoY291bnQpKQoKYGBgCiMjIEpvaW5pbmcgdHdvIHRhYmxlcyA9ICdQbGF5ZXIgU3RhbmRhcmQgQmF0dGluZycgJiAnU2FsYXJ5JwpgYGB7cn0KTUxCIDwtCiAgUFNCICU+JQogIGlubmVyX2pvaW4oU2FsYXJ5KSAlPiUKICBzZWxlY3QoTmFtZSkKClZpZXcoTUxCKQoKClNhbGFyeSAlPiUKICBzZWxlY3QoTmFtZSwgVG0sIFBPUywgYEFWRyBBTk5VQUxgKSAlPiUKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIKb3V0cHV0OiBodG1sX25vdGVib29rCk5hbWU6ICdEYW5pZWwgTGVlJwotLS0KCiMjIyBJREVBCgpUaGUgbWFpbiBnb2FsIG9mIHRoaXMgZmluYWwgcHJvamVjdCBpcyB0byBhbmFseXplIGhvdyB2YXJpYWJsZXMgc3VjaCBhcyBhZ2UsIGJhdHRpbmcgYXZlcmFnZSBhbmQgc2FsYXJ5IG9mIHRoZSBwbGF5ZXJzIGFyZSByZWxhdGVkIGJ5IGpvaW5pbmcgdHdvIGRpZmZlcmVudCB0YWJsZXMgd2hpY2ggYXJlICdQbGF5ZXIgU3RhbmRhcmQgQmF0dGluZycgYW5kICdTYWxhcnknLiBUaGVzZSB0d28gdGFibGVzIHdpbGwgYmUgYW5hbHl6ZWQgc2VwYXJhdGVseSBhbmQgam9pbmVkIHRvZ2V0aGVyIHRvIGxvb2sgZm9yIHRoZSByZWxhdGlvbnNoaXAgYmV0d2VlbiB0aGUgdmFyaWFibGVzLiAKCiMjIyBTZXR1cApgYGB7cn0Kcm0obGlzdCA9IGxzKCkpCmxpYnJhcnkobHVicmlkYXRlKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShtb3NhaWMpCmxpYnJhcnkocnZlc3QpCmBgYAoKIyMjIExvYWRpbmcgZGF0YXNldHMKYGBge3J9CmxpYnJhcnkocmVhZHhsKQpQbGF5ZXJfU3RhbmRhcmRfQmF0dGluZyA8LSByZWFkX2V4Y2VsKCJ+L0Rlc2t0b3AvUGVubiBTdGF0ZS9Db3Vyc2VzL1NUQVQgMTg0L0ZpbmFsIFByb2plY3QvUGxheWVyIFN0YW5kYXJkIEJhdHRpbmcueGxzeCIpClZpZXcoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpCmxpYnJhcnkocmVhZHhsKQpTYWxhcnkgPC0gcmVhZF9leGNlbCgifi9EZXNrdG9wL1Blbm4gU3RhdGUvQ291cnNlcy9TVEFUIDE4NC9GaW5hbCBQcm9qZWN0L1NhbGFyeS54bHN4IikKVmlldyhTYWxhcnkpCmBgYAoKIyMjIERhdGEgV3JhbmdsaW5nIHVzaW5nICdQbGF5ZXIgU3RhbmRhcmQgQmF0dGluZycgdGFibGUKYGBge3J9CiMgQ3JlYXRpbmcgYSBuZXcgdGFibGUgKFBTQikgd2l0aCB2YXJpYWJsZXMgdGhhdCBhcmUgbmVjZXNzYXJ5IGFuZCBzaWduaWZpY2FudCAmIGVyYXNpbmcgcm93cyB0aGF0IGNvbnRhaW4gTkFzLgpQU0IgPC0gCiAgUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcgJT4lCiAgc2VsZWN0KE5hbWUsIFRtLCBMZywgQWdlLCBSLCBILCBIUiwgUkJJLCBBQiwgQkEsIFBPUykgCgpzdHIoUGxheWVyX1N0YW5kYXJkX0JhdHRpbmcpCgojIEF2ZXJhZ2UgSGl0cyBhbmQgQmF0dGluZyBhdmVhZ2UKUFNCICU+JQogIHN1bW1hcmlzZShCQSA9IG1lYW4oQkEsIG5hLnJtID0gVFJVRSkgLCBIID0gbWVhbihILCBuYS5ybSA9IFRSVUUpKSAjIFBpdGNoZXJzIEJhdHRpbmcgQXZlcmFnZSBleGNsdWRlZCAKCiMgTW9zdCBIaXRzIGFuZCBCYXR0aW5nIGF2ZWFnZQpQU0IgJT4lCiAgZmlsdGVyKEFCID49IDMwMCkgJT4lICAgICAgICAjIEZpbHRlcmluZyBvdXQgcGxheWVycyB3aG8gd2VyZSBub3QgYXQgYmF0IGxlc3MgdGhhbiAzMDAgZ2FtZXMKICBzdW1tYXJpc2UoQkEgPSBtYXgoQkEsIG5hLnJtID0gVFJVRSksIEggPSBtYXgoSCwgbmEucm0gPSBUUlVFKSkKYGBgCgpgYGB7cn0KIyBDb3VudGluZyB0aGUgbnVtYmVyIG9mIHBsYXllcnMgd2hvIGFyZSAyNyB5ZWFycyBvbGQgaW4gZWFjaCB0ZWFtICYgUmVtb3ZpbmcgcGl0Y2hlcnMgYW5kIGR1cGxpY2F0ZWQgbmFtZXMgZnJvbSB0aGUgZGF0YSB0YWJsZSBvY2N1cmVkIGR1ZSB0byB0cmFkZSBkdXJpbmcgc2Vhc29uLgoKUFNCICU+JQogIGdyb3VwX2J5KFRtKSAlPiUKICBmaWx0ZXIoQWdlID49IDI3KSAlPiUKICBmaWx0ZXIoUE9TICE9ICIxIikgJT4lICAgICAgICAgICAgICAgICAgICAgIyBQaXRjaGVycyBoYXZlIGEgbnVtYmVyIHBvc2l0aW9uID0gMSAKICBzdW1tYXJpc2UoY291bnQgPSBuKCApKSAlPiUKICBhcnJhbmdlKGRlc2MoY291bnQpKQoKYGBgCgojIyMgRGF0YSBXcmFuZ2xpbmcgdXNpbmcgJ1NhbGFyeScgdGFibGUKYGBge3J9CiMgTnVtYmVyIG9mIHBsYXllcnMgd2hvIGVhcm5lZCBtb3JlIHRoYW4gdGhlIGF2ZXJhZ2Ugc2FsYXJ5ICgkNCw1MjAsMDAwKSBmb3IgZWFjaCB0ZWFtIGluIDIwMTgKU2FsYXJ5ICU+JQogIGdyb3VwX2J5KFRtKSAlPiUKICBmaWx0ZXIoQVZHID4gNDUyMDAwMCkgJT4lCiAgZmlsdGVyKFBPUyAhPSAiMSIpICU+JSAgICAgICAgICMgUGl0Y2hlcnMgaGF2ZSBhIG51bWJlciBwb3NpdGlvbiA9IDEgLyBQT1MgZG9lcyBub3Qgd29yayAKICBzdW1tYXJpc2UoY291bnQgPSBuKCApKSAlPiUKICBhcnJhbmdlKGRlc2MoY291bnQpKQoKIyAKCmBgYAoKIyMjIEpvaW5pbmcgdHdvIHRhYmxlcyA9ICdQbGF5ZXIgU3RhbmRhcmQgQmF0dGluZycgJiAnU2FsYXJ5JwpgYGB7cn0KTUxCIDwtCiAgUFNCICU+JQogIGlubmVyX2pvaW4oU2FsYXJ5KSAlPiUKICBzZWxlY3QoTmFtZSkKClZpZXcoTUxCKQoKClNhbGFyeSAlPiUKICBzZWxlY3QoTmFtZSwgVG0sIFBPUywgYEFWRyBBTk5VQUxgKSAlPiUKYGBgCgoK</div>
 
 
 

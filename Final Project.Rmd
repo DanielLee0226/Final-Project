@@ -1,8 +1,12 @@
 ---
 title: "Final Project"
 output: html_notebook
-Name: Daniel Lee
+Name: 'Daniel Lee'
 ---
+
+### IDEA
+
+The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related by joining two different tables which are 'Player Standard Batting' and 'Salary'. These two tables will be analyzed separately and joined together to look for the relationship between the variables. 
 
 ### Setup
 ```{r}
@@ -11,32 +15,24 @@ library(lubridate)
 library(tidyverse)
 library(mosaic)
 library(rvest)
+```
+
+### Loading datasets
+```{r}
 library(readxl)
-Player_Standard_Batting <- read_excel("~/Desktop/Player Standard Batting.xlsx")
+Player_Standard_Batting <- read_excel("~/Desktop/Penn State/Courses/STAT 184/Final Project/Player Standard Batting.xlsx")
 View(Player_Standard_Batting)
 library(readxl)
-Salary <- read_excel("~/Desktop/Salary.xlsx")
+Salary <- read_excel("~/Desktop/Penn State/Courses/STAT 184/Final Project/Salary.xlsx")
 View(Salary)
-
 ```
 
-### URL & xpath (Not working & Need to be fixed)
+### Data Wrangling using 'Player Standard Batting' table
 ```{r}
-# download.file(url = "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting")
-# 
-# XPATH <- '//*[@id="players_standard_batting"]'
-# 
-# DataTable <- readRDS("Batting")
-# 
-# web_page <- "https://www.baseball-reference.com/leagues/MLB/2018-standard-pitching.shtml", destfile = "Batting"
-
-```
-
-```{r}
-# Creating a new table (MLB) with variables that are necessary and significant & erasing rows that contain NAs.
+# Creating a new table (PSB) with variables that are necessary and significant & erasing rows that contain NAs.
 PSB <- 
   Player_Standard_Batting %>%
-  select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) # POS should be included but could not be found..
+  select(Name, Tm, Lg, Age, R, H, HR, RBI, AB, BA, POS) 
 
 str(Player_Standard_Batting)
 
@@ -56,29 +52,27 @@ PSB %>%
 PSB %>%
   group_by(Tm) %>%
   filter(Age >= 27) %>%
-  filter(POS != "1") %>% # Pitchers have a number position = 1 / POS does not work 
+  filter(POS != "1") %>%                     # Pitchers have a number position = 1 
   summarise(count = n( )) %>%
   arrange(desc(count))
 
 ```
 
-## Summarizing data from table 'Salary'
+### Data Wrangling using 'Salary' table
 ```{r}
-# Number of players who earned more than the average salary in 2018
-Salary %>%
-  filter(AVG > 4520000) %>% 
-  filter(POS != "1") %>%
-  summarise(count = n())
-
+# Number of players who earned more than the average salary ($4,520,000) for each team in 2018
 Salary %>%
   group_by(Tm) %>%
   filter(AVG > 4520000) %>%
-  filter(POS != "1") %>% # Pitchers have a number position = 1 / POS does not work 
+  filter(POS != "1") %>%         # Pitchers have a number position = 1 / POS does not work 
   summarise(count = n( )) %>%
   arrange(desc(count))
 
+# 
+
 ```
-## Joining two tables = 'Player Standard Batting' & 'Salary'
+
+### Joining two tables = 'Player Standard Batting' & 'Salary'
 ```{r}
 MLB <-
   PSB %>%
@@ -91,4 +85,5 @@ View(MLB)
 Salary %>%
   select(Name, Tm, POS, `AVG ANNUAL`) %>%
 ```
+
 
