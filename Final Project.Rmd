@@ -6,7 +6,7 @@ Name: 'Daniel Lee'
 
 ### IDEA & GOAL
 
-The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related by joining two different tables which are 'Player Standard Batting' and 'Salary'. These two tables will be analyzed separately and joined together to look for the relationship between the variables by plotting graphs. 
+The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related.  These two tables will be analyzed separately and joined together to look for the relationship between the variables by plotting graphs. 
 
 ### Setup
 ```{r}
@@ -15,6 +15,7 @@ library(lubridate)
 library(tidyverse)
 library(mosaic)
 library(rvest)
+library(tidyr)
 ```
 
 ### Loading datasets
@@ -23,10 +24,12 @@ library(rvest)
 library(readxl)
 Player_Standard_Batting <- read_excel("~/Desktop/Penn State/Courses/STAT 184/Final Project/Player Standard Batting.xlsx")
 View(Player_Standard_Batting)
+spread(Player_Standard_Batting, Lg, Age)
 
 library(readxl)
 Salary <- read_excel("~/Desktop/Penn State/Courses/STAT 184/Final Project/Salary.xlsx")
 View(Salary)
+spread(Salary, POS, YEARS)
 ```
 
 ```{r}
@@ -49,10 +52,6 @@ PSB <-
   mutate(Name = gsub(pattern = "[[:punct:]]", replacement = "", x = Name))
 
 View(PSB)
-
-# Average Hits and Batting average
-PSB %>%
-  summarise(BA = mean(BA, na.rm = TRUE) , H = mean(H, na.rm = TRUE)) # Pitchers Batting Average excluded 
 ```
 
 ```{r}
@@ -74,7 +73,7 @@ PSB %>%
 ```
 
 ```{r}
-# Plotting a graph: Age vs BA into two groups (AL & NL)
+# Plotting a graph: Age vs BA into two different leagues (AL & NL)
 PSB %>%
   ggplot(aes(x = Age, y = BA, color = Lg)) +
   stat_smooth() +
@@ -83,7 +82,7 @@ PSB %>%
 The graph (figure 1.1) shows that, in average, batters in American league have higher batting average betwen the age of 21 to 37 years old which are most of the players. However, this graph can be also interpreted as national league batters who are younger than 21 years old having more potential. Batting average for national league players could be higher than american league players in few years. The following graph could be altered next year because there are many trades happening between the teams from National league and American league. 
 
 ```{r}
-# Plotting a graph: Age vs H into two groups (AL & NL)
+# Plotting a graph: League vs H into two groups (AL & NL)
 PSB %>%
   ggplot(aes(x = Lg, y = H)) +
   geom_boxplot()+
@@ -91,12 +90,26 @@ PSB %>%
 ```
 This boxplot (figure 1.2) shows how number of hits affect the above graph (BA vs Age). The American League has higher Q1, Q3 and median than National league's Q1, Q3 and median. Although hits are not 100% the factor of having a higher batting average as shown in the figure 1.1, but it is a significant factor.
 
+```{r}
+PSB %>%
+  ggplot(aes(x = Age, y = HR, color = Lg)) +
+  geom_point() +
+  ylab("Batting Average (BA)") + xlab("Age (years)")
+```
+
+```{r}
+# Number of players who had higher average (0.248) of average hits for each team in 2018
+PSB %>%
+  group_by(Tm) %>%
+  filter(BA >= 0.248) %>%
+  filter(POS != "1") %>%         # Pitchers have a number position = 1 / POS does not work 
+  summarise(count = n( )) %>%
+  arrange(desc(count))
+```
+
+
 ### Data Wrangling for 'Salary' table
 ```{r}
-# Finding the average salary in 2018 
-Salary %>%
-  summarise(AVG = mean(AVG, na.rm = TRUE))
-
 # Number of players who earned more than the average salary ($4,520,000) for each team in 2018
 Salary %>%
   group_by(Tm) %>%
@@ -105,8 +118,13 @@ Salary %>%
   summarise(count = n( )) %>%
   arrange(desc(count))
 ```
+The tables for finding 'Number of players who had higher average (0.248) of average hits for each team in 2018' and the table above shows there isn't any significant relationship betwen the variables for batting average and salary. 
 
 ```{r}
+# Finding the average salary in 2018 
+Salary %>%
+  summarise(AVG = mean(AVG, na.rm = TRUE))
+
 # Highest and lowest salary for each position
 Salary %>%
   group_by(POS) %>%
@@ -116,6 +134,7 @@ Salary %>%
 ```
 
 
+### Plotting graph for 
 ```{r}
 ggplot(data = Salary, aes(x = AVG)) + 
   geom_histogram(binwidth = 1400000) + 
@@ -127,37 +146,5 @@ Salary %>%
   geom_density(color = "black", fill = "gray", alpha = 0.75) +
   xlab("SALARY") +
   xlim(545000,30714286)
-
-PSB %>%
-  ggplot(aes(x = Age, y = HR, color = Lg)) +
-  geom_point() +
-  ylab("Batting Average (BA)") + xlab("Age (years)")
-```
-
-
-### Joining two tables = 'Player Standard Batting' & 'Salary'
-```{r}
-PSB <-
-  PSB %>%
-  mutate(Name = ungroup(Name)) %>%
-  mutate(Tm = ungroup(Tm)) 
-
-Salary <-
-  Salary %>%
-  mutate(Name = ungroup(Name)) %>%
-  mutate(Tm = ungroup(Tm)) 
-
-
-MLB <-
-  PSB %>%
-  left_join(Salary, by = c("Name", "Tm"))
-View(MLB)
-
-
-```
-
-### Plotting a graph to find the relationship between age vs salary & BA vs salary
-```{r}
-
 ```
 
