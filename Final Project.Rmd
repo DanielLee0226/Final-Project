@@ -60,7 +60,6 @@ PSB %>%
   summarise(BA = max(BA, na.rm = TRUE), H = max(H, na.rm = TRUE))
 ```
 
-
 ```{r}
 # Counting the number of players who are 27 years old in each team & Removing pitchers and duplicated names from the data table occured due to trade during season.
 PSB %>%
@@ -142,7 +141,7 @@ Salary %>%
 ### Plotting a graph for MLB players average salaries for 2018
 ```{r}
 ggplot(data = Salary, aes(x = AVG)) + 
-  geom_histogram(binwidth = 1400000) + 
+  geom_histogram(binwidth = 1000000) + 
   aes(colour = POS)
 ```
 This bar chart shows that most of the mlb players receive salaries which are less than $1000000. The majority of mlb players who receive less than $1000000 are pitchers and 1st basements. This graph is reasonable because since not a lot of players are star players nor fixed in lineups, a lot of players tend to get paid less compared to players who are star players. Also, the gap between the players who get paid a lot and less are large. 
@@ -154,3 +153,7 @@ Salary %>%
   xlab("SALARY") +
   xlim(545000,30714286)
 ```
+This density graph shows a significant trend of the bar chart above. 
+
+### Conclusion
+Based on the following investigations and findings, the project shows that American league has a higher batting average than the batting average for national league because batters in american league have more hits and homeruns in general which can be showed through a box plot and scatter plot above. Also, the analysis of the 'Salary' table shows that the amount of salary does not have a significant relationship with the batting average. Lastly, surprisingly, there are more significant number of players who get paid less than the average salary compared to players who get paid a lot. 
