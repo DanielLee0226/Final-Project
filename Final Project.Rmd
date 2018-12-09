@@ -41,7 +41,7 @@ Salary <-
 glimpse(Salary)
 ```
 
-### Data Wrangling for 'Player Standard Batting' table
+## Data Wrangling for 'Player Standard Batting' table
 ```{r}
 # Creating a new table (PSB) with variables that are necessary and significant & Removing unnecessary punctuations at the name column for 'Player Standard Batting' table
 PSB <- 
@@ -99,7 +99,7 @@ PSB %>%
   ylab("Homeruns (HR)") + xlab("Age (years)")
 ```
 
-## Would batting average have relationship between batting average and salary of the player in the teams?
+### Would batting average have relationship between batting average and salary of the player in the teams?
 ```{r}
 # Number of players who had higher average (0.248) of average hits for each team in 2018
 PSB %>%
@@ -121,7 +121,7 @@ Salary %>%
 ```
 The tables for finding 'Number of players who had higher average (0.248) of average hits for each team in 2018' and the table above shows there isn't any significant relationship betwen the variables for batting average and salary. 
 
-### Data Wrangling for 'Salary' table
+## Data Wrangling for 'Salary' table
 ```{r}
 # Finding the average salary in 2018 
 Salary %>%
