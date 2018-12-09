@@ -6,7 +6,7 @@ Name: 'Daniel Lee'
 
 ### IDEA & GOAL
 
-The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related.  These two tables will be analyzed separately and joined together to look for the relationship between the variables by plotting graphs. 
+The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related. At first, the relationship between age and batting average will be analyzed and then find what factors affect the most by creating graphs for other variables with variable, age. And then, the other table 'Salary' would be used to see whether batting average has relationship with salary.
 
 ### Setup
 ```{r}
@@ -41,7 +41,6 @@ Salary <-
 glimpse(Salary)
 ```
 
-
 ### Data Wrangling for 'Player Standard Batting' table
 ```{r}
 # Creating a new table (PSB) with variables that are necessary and significant & Removing unnecessary punctuations at the name column for 'Player Standard Batting' table
@@ -72,6 +71,7 @@ PSB %>%
   arrange(desc(count))
 ```
 
+## Finding the relationship between age and batting average in two different leagues
 ```{r}
 # Plotting a graph: Age vs BA into two different leagues (AL & NL)
 PSB %>%
@@ -81,6 +81,7 @@ PSB %>%
 ```
 The graph (figure 1.1) shows that, in average, batters in American league have higher batting average betwen the age of 21 to 37 years old which are most of the players. However, this graph can be also interpreted as national league batters who are younger than 21 years old having more potential. Batting average for national league players could be higher than american league players in few years. The following graph could be altered next year because there are many trades happening between the teams from National league and American league. 
 
+## Would number of hits affect the batting average of the players in the leagues?
 ```{r}
 # Plotting a graph: League vs H into two groups (AL & NL)
 PSB %>%
@@ -90,13 +91,15 @@ PSB %>%
 ```
 This boxplot (figure 1.2) shows how number of hits affect the above graph (BA vs Age). The American League has higher Q1, Q3 and median than National league's Q1, Q3 and median. Although hits are not 100% the factor of having a higher batting average as shown in the figure 1.1, but it is a significant factor.
 
+## Which league players would have a lot of homeruns?
 ```{r}
 PSB %>%
   ggplot(aes(x = Age, y = HR, color = Lg)) +
   geom_point() +
-  ylab("Batting Average (BA)") + xlab("Age (years)")
+  ylab("Homeruns (HR)") + xlab("Age (years)")
 ```
 
+## Would batting average have relationship between batting average and salary of the player in the teams?
 ```{r}
 # Number of players who had higher average (0.248) of average hits for each team in 2018
 PSB %>%
@@ -107,8 +110,6 @@ PSB %>%
   arrange(desc(count))
 ```
 
-
-### Data Wrangling for 'Salary' table
 ```{r}
 # Number of players who earned more than the average salary ($4,520,000) for each team in 2018
 Salary %>%
@@ -120,6 +121,7 @@ Salary %>%
 ```
 The tables for finding 'Number of players who had higher average (0.248) of average hits for each team in 2018' and the table above shows there isn't any significant relationship betwen the variables for batting average and salary. 
 
+### Data Wrangling for 'Salary' table
 ```{r}
 # Finding the average salary in 2018 
 Salary %>%
