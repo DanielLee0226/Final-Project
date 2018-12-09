@@ -4,11 +4,11 @@ output: html_notebook
 Name: 'Daniel Lee'
 ---
 
-### IDEA & GOAL
+## IDEA & GOAL
 
 The main goal of this final project is to analyze how variables such as age, batting average and salary of the players are related. At first, the relationship between age and batting average will be analyzed and then find what factors affect the most by creating graphs for other variables with variable, age. And then, the other table 'Salary' would be used to see whether batting average has relationship with salary.
 
-### Setup
+## Setup
 ```{r}
 rm(list = ls())
 library(lubridate)
@@ -18,7 +18,7 @@ library(rvest)
 library(tidyr)
 ```
 
-### Loading datasets
+## Loading datasets
 ```{r}
 # Loading two tables: 'Player Standard Batting' & 'Salary'
 library(readxl)
@@ -70,7 +70,7 @@ PSB %>%
   arrange(desc(count))
 ```
 
-## Finding the relationship between age and batting average in two different leagues
+### Finding the relationship between age and batting average in two different leagues
 ```{r}
 # Plotting a graph: Age vs BA into two different leagues (AL & NL)
 PSB %>%
@@ -80,7 +80,7 @@ PSB %>%
 ```
 The graph (figure 1.1) shows that, in average, batters in American league have higher batting average betwen the age of 21 to 37 years old which are most of the players. However, this graph can be also interpreted as national league batters who are younger than 21 years old having more potential. Batting average for national league players could be higher than american league players in few years. The following graph could be altered next year because there are many trades happening between the teams from National league and American league. 
 
-## Would number of hits affect the batting average of the players in the leagues?
+### Would number of hits affect the batting average of the players in the leagues?
 ```{r}
 # Plotting a graph: League vs H into two groups (AL & NL)
 PSB %>%
@@ -90,7 +90,7 @@ PSB %>%
 ```
 This boxplot (figure 1.2) shows how number of hits affect the above graph (BA vs Age). The American League has higher Q1, Q3 and median than National league's Q1, Q3 and median. Although hits are not 100% the factor of having a higher batting average as shown in the figure 1.1, but it is a significant factor.
 
-## Which league players would have a lot of homeruns?
+### Which league players would have a lot of homeruns?
 ```{r}
 PSB %>%
   ggplot(aes(x = Age, y = HR, color = Lg)) +
@@ -155,5 +155,5 @@ Salary %>%
 ```
 This density graph shows a significant trend of the bar chart above. 
 
-### Conclusion
+## Conclusion
 Based on the following investigations and findings, the project shows that American league has a higher batting average than the batting average for national league because batters in american league have more hits and homeruns in general which can be showed through a box plot and scatter plot above. Also, the analysis of the 'Salary' table shows that the amount of salary does not have a significant relationship with the batting average. Lastly, surprisingly, there are more significant number of players who get paid less than the average salary compared to players who get paid a lot. 
