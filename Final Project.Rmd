@@ -128,23 +128,27 @@ Salary %>%
 # Highest and lowest salary for each position
 Salary %>%
   group_by(POS) %>%
-  summarise(AVG = max(AVG, na.rm = TRUE)) +
-  arrange(desc())
+  summarise(AVG = max(AVG, na.rm = TRUE))
+
+Salary %>%
+  group_by(POS) %>%
+  summarise(AVG = min(AVG, na.rm = TRUE))
 
 ```
 
 
-### Plotting graph for 
+### Plotting a graph for MLB players average salaries for 2018
 ```{r}
 ggplot(data = Salary, aes(x = AVG)) + 
   geom_histogram(binwidth = 1400000) + 
-  aes(colour = POS) + 
-  xlim=c(0, 35000000), ylim=c(0, 300)
+  aes(colour = POS)
+```
+This bar chart shows that most of the mlb players receive salaries which are less than $1000000. The majority of mlb players who receive less than $1000000 are pitchers and 1st basements. This graph is reasonable because since not a lot of players are star players nor fixed in lineups, a lot of players tend to get paid less compared to players who are star players. Also, the gap between the players who get paid a lot and less are large. 
 
+```{r}
 Salary %>%
   ggplot(aes(x = AVG)) +
   geom_density(color = "black", fill = "gray", alpha = 0.75) +
   xlab("SALARY") +
   xlim(545000,30714286)
 ```
-
